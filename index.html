@@ -718,31 +718,37 @@ function makeFotosSection(yearKey) {
 
 
 ───────────────────────────────────────────── */
-async function load() {
-  try {
-    var res = await fetch(API, {
-      headers:{ "Accept":"application/vnd.github+json" }
-    });
-    if (!res.ok) throw new Error("GitHub API " + res.status);
-    var data = await res.json();
-    allFiles = data
-      .filter(function(f){
-        return f.type === "file"
-          && /\.html$/i.test(f.name)
-          && f.name.toLowerCase() !== "index.html";
-      })
-      .sort(function(a,b){ return a.name.localeCompare(b.name); });
+/* Lista hardcoded dos arquivos do repositório.
+   Adicione novos arquivos aqui quando subir ao GitHub. */
+var REPO_FILES = [
+  "Atividades em 2025.html",
+  "Atividades em 2026.html",
+  "Impacto em 2025.html",
+  "Lei de Incentivo ao Esporte _Ciclo 2.html",
+  "Lei de Incentivo ao Esporte _Ciclo1.html",
+  "Memoria_do_Mes_2026.html",
+  "Primeiro Tempo 2026.html",
+  "Sub11 2026.html",
+  "Sub13 2026.html",
+  "Sub13 Tarde 2026.html",
+  "Sub15 T 2026.html",
+  "Sub15 T2 2026.html",
+  "Sub17 Manha 2026.html",
+  "Sub17 T 2026.html",
+  "Sub17 T2 2026.html"
+];
 
-    if (!allFiles.length) {
-      document.getElementById("main").innerHTML =
-        '<div class="loading-block">Nenhum arquivo .html encontrado no repositório.</div>';
-      return;
-    }
-    render();
-  } catch(err) {
+function load() {
+  allFiles = REPO_FILES
+    .map(function(name){ return { name: name }; })
+    .sort(function(a,b){ return a.name.localeCompare(b.name); });
+
+  if (!allFiles.length) {
     document.getElementById("main").innerHTML =
-      '<div class="loading-block">⚠️ Erro ao carregar: ' + err.message + '</div>';
+      '<div class="loading-block">Nenhum arquivo .html encontrado.</div>';
+    return;
   }
+  render();
 }
 
 /* ─────────────────────────────────────────────
