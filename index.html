@@ -12,7 +12,7 @@
 }
 :root{
   --verde:#42ce02; --amarelo:#f3ce02; --laranja:#f44c06;
-  --roxo:#8010ff;  --azul:#354d73;   --branco:#EEEEEE;
+  --roxo:#c084fc;  --azul:#354d73;   --branco:#EEEEEE;
   --cinza-card:rgba(255,255,255,.04);
   --borda:rgba(255,255,255,.10);
 }
@@ -49,16 +49,18 @@ header{
   height:76px; width:auto; object-fit:contain;
   
 }
-.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:.4rem;}
+.header-right{display:flex;flex-direction:column;align-items:stretch;gap:.4rem;}
 .badge{
   font-family:"Pressio","Arial Narrow",Arial,sans-serif;
-  font-size:.68rem; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--verde); padding:.3rem .85rem;
-  border:1.5px solid var(--verde); border-radius:2px; white-space:nowrap;
+  font-size:1.05rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--amarelo); padding:.35rem .85rem;
+  border:1.5px solid var(--amarelo); border-radius:2px;
+  width:100%; text-align:center; white-space:nowrap;
+  box-sizing:border-box;
 }
 .subtitle{
-  font-size:.82rem; color:rgba(238,238,238,.78);
-  letter-spacing:.02em; text-align:right;
+  font-size:.88rem; color:rgba(238,238,238,.90);
+  letter-spacing:.02em; text-align:center;
 }
 
 /* ── SEARCH ── */
@@ -87,7 +89,7 @@ header{
 .search-input::placeholder{color:rgba(238,238,238,.42);}
 .search-input:focus{border-color:var(--verde);}
 .search-count{
-  font-size:.75rem;color:rgba(238,238,238,.52);
+  font-size:.82rem;color:rgba(238,238,238,.75);
   align-self:center;white-space:nowrap;
 }
 
@@ -107,23 +109,23 @@ header{
 }
 .year-pill{
   font-family:"Pressio","Arial Narrow",Arial,sans-serif;
-  font-size:1.15rem;letter-spacing:.1em;
+  font-size:2.3rem;letter-spacing:.1em;
   padding:.25rem .85rem;
   border-radius:2px;
   white-space:nowrap;
 }
 .year-pill.y2025{
-  background:rgba(243,206,2,.15);
-  border:1.5px solid rgba(243,206,2,.4);
-  color:var(--amarelo);
+  background:#EEEEEE;
+  border:1.5px solid #EEEEEE;
+  color:var(--azul);
 }
 .year-pill.y2026{
-  background:rgba(66,206,2,.12);
-  border:1.5px solid rgba(66,206,2,.35);
-  color:var(--verde);
+  background:#EEEEEE;
+  border:1.5px solid #EEEEEE;
+  color:var(--azul);
 }
 .year-line{flex:1;height:1px;background:rgba(255,255,255,.08);}
-.year-count{font-size:.72rem;color:rgba(238,238,238,.5);white-space:nowrap;}
+.year-count{font-size:.78rem;color:rgba(238,238,238,.75);white-space:nowrap;}
 
 /* ── 2 colunas ── */
 .cols{
@@ -135,34 +137,84 @@ header{
 }
 @media(max-width:640px){.cols{grid-template-columns:1fr;}}
 
+/* ── SEÇÃO DE TURMAS ── */
+.turmas-section{
+  border:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.07);
+  margin-top:1px;
+}
+.turmas-header{
+  padding:1rem 1.25rem;
+  background:rgba(0,0,0,.15);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;gap:.75rem;
+}
+.turmas-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:rgba(255,255,255,.04);
+}
+@media(max-width:640px){.turmas-grid{grid-template-columns:repeat(2,1fr);}}
+
+/* ── CHIP (card compacto de turma) ── */
+.chip{
+  display:flex;flex-direction:column;gap:.3rem;
+  padding:1rem 1.25rem;
+  background:rgba(255,255,255,.02);
+  text-decoration:none;color:inherit;
+  position:relative;overflow:hidden;
+  transition:background .15s;
+  min-height:90px;
+  justify-content:center;
+}
+.chip::before{
+  content:"";
+  position:absolute;left:0;top:0;bottom:0;
+  width:3px;background:var(--chip-accent,var(--verde));
+  transition:width .18s;
+}
+.chip:hover{background:rgba(255,255,255,.06);}
+.chip:hover::before{width:5px;}
+.chip-cat{
+  font-family:"Pressio","Arial Narrow",Arial,sans-serif;
+  font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--chip-accent,var(--verde));
+}
+.chip-label{
+  font-family:"Pressio","Arial Narrow",Arial,sans-serif;
+  font-size:1.1rem;font-weight:900;text-transform:uppercase;
+  color:var(--branco);line-height:1.1;
+}
+
 /* ── COLUMN ── */
 .col{}
 .col-header{
-  padding:.65rem 1rem;
+  padding:1rem 1.25rem;
   background:rgba(0,0,0,.15);
   border-bottom:1px solid rgba(255,255,255,.06);
-  display:flex;align-items:center;gap:.5rem;
+  display:flex;align-items:center;gap:.75rem;
 }
 .col-pill{
   font-family:"Pressio","Arial Narrow",Arial,sans-serif;
-  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
-  padding:.2rem .6rem;border-radius:2px;
+  font-size:1.1rem;letter-spacing:.2em;text-transform:uppercase;
+  padding:.3rem .8rem;border-radius:2px;
 }
 .col-pill.pc{
   background:rgba(243,206,2,.15);color:var(--amarelo);
   border:1px solid rgba(243,206,2,.3);
 }
 .col-pill.op{
-  background:rgba(255,255,255,.06);color:rgba(238,238,238,.55);
-  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.06);color:rgba(238,238,238,.80);
+  border:1px solid rgba(255,255,255,.22);
 }
 .col-title{
   font-family:"Pressio","Arial Narrow",Arial,sans-serif;
-  font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;
+  font-size:1.5rem;letter-spacing:.1em;text-transform:uppercase;
   color:var(--branco);
 }
 .col-desc{
-  font-size:.68rem;color:rgba(238,238,238,.52);
+  font-size:.85rem;color:rgba(238,238,238,.75);
   margin-left:auto;
 }
 
@@ -192,12 +244,12 @@ header{
 
 .card-cat{
   font-family:"Pressio","Arial Narrow",Arial,sans-serif;
-  font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+  font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
   color:var(--accent,var(--verde));font-weight:500;
 }
 .card-title{
   font-family:"Pressio","Arial Narrow",Arial,sans-serif;
-  font-size:1.35rem;font-weight:900;
+  font-size:1.4rem;font-weight:900;
   text-transform:uppercase;line-height:1.06;
   color:var(--branco);
 }
@@ -207,7 +259,7 @@ header{
   border-top:1px solid rgba(255,255,255,.06);
 }
 .card-file{
-  font-size:.7rem;color:rgba(238,238,238,.38);
+  font-size:.75rem;color:rgba(238,238,238,.60);
   font-family:"Courier New",monospace;
   word-break:break-all;
 }
@@ -248,7 +300,7 @@ header{
   background:rgba(0,0,0,.1);
   border-top:1px solid rgba(255,255,255,.06);
 }
-.legend-item{display:flex;align-items:center;gap:.4rem;font-size:.68rem;color:rgba(238,238,238,.55);}
+.legend-item{display:flex;align-items:center;gap:.4rem;font-size:.75rem;color:rgba(238,238,238,.80);}
 .legend-dot{width:8px;height:8px;border-radius:50%;}
 
 /* ── FOOTER ── */
@@ -319,7 +371,7 @@ footer a:hover{text-decoration:underline;}
   <div class="dots">
     <div class="dot" style="background:#42ce02"></div>
     <div class="dot" style="background:#f44c06"></div>
-    <div class="dot" style="background:#8010ff"></div>
+    <div class="dot" style="background:#c084fc"></div>
     <div class="dot" style="background:#f3ce02"></div>
     <div class="dot" style="background:#354d73;border:1px solid rgba(255,255,255,.2)"></div>
   </div>
@@ -364,7 +416,7 @@ function classify(name) {
   } else if (n.indexOf("impacto") >= 0 || n.indexOf("relatorio") >= 0 || n.indexOf("relatório") >= 0) {
     accent = "#f44c06"; // laranja = relatório de impacto
   } else if (n.indexOf("atividade") >= 0 || n.indexOf("descri") >= 0) {
-    accent = "#8010ff"; // roxo = atividades
+    accent = "#c084fc"; // roxo claro = atividades (contraste adequado sobre azul)
   } else if (n.indexOf("dashboard") >= 0 || n.indexOf("sub") >= 0 || n.indexOf("primeiro") >= 0) {
     accent = "#42ce02"; // verde = dashboard operacional
   }
@@ -426,29 +478,66 @@ function makeCard(f, idx) {
   );
 }
 
+function makeChip(f, idx) {
+  var info = classify(f.name);
+  var url  = BASE + encodeURIComponent(f.name);
+  var delay = (idx * 0.045) + "s";
+  return (
+    '<a class="chip" href="' + url + '"' +
+    ' style="--chip-accent:' + info.accent + ';animation-delay:' + delay + '">' +
+      '<div class="chip-cat">' + info.cat + '</div>' +
+      '<div class="chip-label">' + prettify(f.name) + '</div>' +
+    '</a>'
+  );
+}
+
+/* Coluna institucional (PC ou OP sem turmas) */
 function makeCol(files, colKey, yearKey, idx0) {
   var filtered = files.filter(function(f){
     var info = classify(f.name);
-    return info.col === colKey && info.year === yearKey;
+    return info.col === colKey && info.year === yearKey && !isTurma(f.name, yearKey);
   });
 
   var isPc = colKey === "pc";
-  var colTitle = isPc ? "Prestação de Contas" : "Relatórios &amp; Dashboards";
-  var colDesc  = isPc ? "LIE · Captação" : "Operacional";
+  var colTitle = isPc ? "Prestação de Contas" : "Relatórios &amp; Impacto";
+  var colDesc  = isPc ? "LIE · Captação" : "Institucional";
   var pillCls  = isPc ? "pc" : "op";
 
-  var cardsHtml = filtered.length
-    ? filtered.map(function(f, i){ return makeCard(f, idx0 + i); }).join("")
+  var innerHtml = filtered.length
+    ? '<div class="cards">' + filtered.map(function(f, i){ return makeCard(f, idx0 + i); }).join("") + '</div>'
     : '<div class="empty card" style="animation:none">Nenhum arquivo nesta categoria.</div>';
 
   return (
     '<div class="col">' +
       '<div class="col-header">' +
-        '<span class="col-pill ' + pillCls + '">' + (isPc ? "PC" : "OP") + '</span>' +
         '<span class="col-title">' + colTitle + '</span>' +
         '<span class="col-desc">' + colDesc + '</span>' +
       '</div>' +
-      '<div class="cards">' + cardsHtml + '</div>' +
+      innerHtml +
+    '</div>'
+  );
+}
+
+/* Seção de turmas (só aparece em 2026 com dashboards de turma) */
+function isTurma(name, yearKey) {
+  if (yearKey !== "2026") return false;
+  var n = name.toLowerCase();
+  return (n.indexOf("sub") >= 0 || (n.indexOf("primeiro") >= 0 && n.indexOf("tempo") >= 0));
+}
+
+function makeTurmasSection(files, yearKey, idx0) {
+  var turmas = files.filter(function(f){ return isTurma(f.name, yearKey); });
+  if (!turmas.length) return "";
+
+  return (
+    '<div class="turmas-section">' +
+      '<div class="turmas-header">' +
+        '<span class="col-title">Dashboards de Turmas</span>' +
+        '<span class="col-desc">' + turmas.length + ' turma' + (turmas.length !== 1 ? 's' : '') + '</span>' +
+      '</div>' +
+      '<div class="turmas-grid">' +
+        turmas.map(function(f, i){ return makeChip(f, idx0 + i); }).join("") +
+      '</div>' +
     '</div>'
   );
 }
@@ -461,16 +550,13 @@ function render() {
       || prettify(f.name).toLowerCase().indexOf(lq) >= 0;
   });
 
-  // contagem total
   document.getElementById("total-count").textContent =
     filtered.length + " arquivo" + (filtered.length !== 1 ? "s" : "");
 
-  // anos presentes
   var years = ["2025","2026"].filter(function(yr){
     return filtered.some(function(f){ return classify(f.name).year === yr; });
   });
 
-  // se nenhum resultado
   if (!filtered.length) {
     document.getElementById("main").innerHTML =
       '<div class="loading-block">Nenhum documento encontrado para "<em>' + q + '</em>".</div>';
@@ -481,12 +567,11 @@ function render() {
   var globalIdx = 0;
 
   years.forEach(function(yr){
-    var yFiles = filtered.filter(function(f){ return classify(f.name).year === yr; });
-    var yCls   = yr === "2025" ? "y2025" : "y2026";
-    var yCount = yFiles.length + " arquivo" + (yFiles.length !== 1 ? "s" : "");
-
-    // PC col items count (for idx offset)
-    var pcCount = yFiles.filter(function(f){ return classify(f.name).col === "pc"; }).length;
+    var yFiles  = filtered.filter(function(f){ return classify(f.name).year === yr; });
+    var yCls    = yr === "2025" ? "y2025" : "y2026";
+    var yCount  = yFiles.length + " arquivo" + (yFiles.length !== 1 ? "s" : "");
+    var pcCount = yFiles.filter(function(f){ return classify(f.name).col === "pc" && !isTurma(f.name, yr); }).length;
+    var turmaIdx = globalIdx + yFiles.filter(function(f){ return !isTurma(f.name, yr); }).length;
 
     html +=
       '<div class="year-block">' +
@@ -496,21 +581,21 @@ function render() {
           '<span class="year-count">' + yCount + '</span>' +
         '</div>' +
         '<div class="cols">' +
-          makeCol(yFiles, "pc",  yr, globalIdx) +
+          makeCol(yFiles, "pc", yr, globalIdx) +
           makeCol(yFiles, "op", yr, globalIdx + pcCount) +
         '</div>' +
+        makeTurmasSection(yFiles, yr, turmaIdx) +
       '</div>';
 
     globalIdx += yFiles.length;
   });
 
-  // legenda de cores
   html +=
     '<div class="legend">' +
       '<div class="legend-item"><div class="legend-dot" style="background:#f3ce02"></div>Prestação de Contas / LIE</div>' +
       '<div class="legend-item"><div class="legend-dot" style="background:#f44c06"></div>Relatório de Impacto</div>' +
-      '<div class="legend-item"><div class="legend-dot" style="background:#8010ff"></div>Atividades</div>' +
-      '<div class="legend-item"><div class="legend-dot" style="background:#42ce02"></div>Dashboard Operacional</div>' +
+      '<div class="legend-item"><div class="legend-dot" style="background:#c084fc"></div>Atividades</div>' +
+      '<div class="legend-item"><div class="legend-dot" style="background:#42ce02"></div>Dashboard de Turma</div>' +
     '</div>';
 
   document.getElementById("main").innerHTML = html;
