@@ -234,13 +234,13 @@ header{
 .foto-link{
   display:inline-flex;align-items:center;gap:.4rem;
   font-size:.72rem;letter-spacing:.04em;
-  color:var(--verde);text-decoration:none;
-  border:1px solid rgba(66,206,2,.3);
+  color:var(--amarelo);text-decoration:none;
+  border:1px solid rgba(243,206,2,.3);
   border-radius:2px;padding:.25rem .6rem;
   transition:background .15s,border-color .15s;
   width:fit-content;
 }
-.foto-link:hover{background:rgba(66,206,2,.12);border-color:rgba(66,206,2,.6);}
+.foto-link:hover{background:rgba(243,206,2,.12);border-color:rgba(243,206,2,.6);}
 .foto-link svg{flex-shrink:0;opacity:.7;}
 
 
@@ -709,8 +709,7 @@ function makeFotosSection(yearKey) {
   return (
     '<div class="fotos-section">' +
       '<div class="fotos-header">' +
-        '<span class="fotos-title">📷 Fotos & Vídeos · 2026</span>' +
-        '<a href="Memoria_do_Mes_2026.html" style="font-size:.75rem;color:var(--amarelo);text-decoration:none;border:1px solid rgba(243,206,2,.35);border-radius:2px;padding:.2rem .65rem;letter-spacing:.05em;">Memória do Mês →</a>' +
+        '<span class="fotos-title">Fotos &amp; Vídeos · 2026</span>' +
       '</div>' +
       '<div class="fotos-grid">' + fotosHtml + '</div>' +
     '</div>'
