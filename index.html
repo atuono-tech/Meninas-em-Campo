@@ -187,8 +187,62 @@ header{
   color:var(--branco);line-height:1.1;
 }
 
-/* ── COLUMN ── */
-.col{}
+/* ── SEÇÃO FOTOS ── */
+.fotos-section{
+  border:1px solid rgba(255,255,255,.07);
+  border-top:none;
+  background:rgba(255,255,255,.02);
+}
+.fotos-header{
+  padding:.85rem 1.25rem;
+  background:rgba(0,0,0,.10);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;gap:.75rem;
+}
+.fotos-icon{
+  font-size:1rem;color:rgba(238,238,238,.5);
+}
+.fotos-title{
+  font-family:"Pressio","Arial Narrow",Arial,sans-serif;
+  font-size:1rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--branco);
+}
+.fotos-sub{
+  font-size:.78rem;color:rgba(238,238,238,.55);margin-left:auto;
+}
+.fotos-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:rgba(255,255,255,.04);
+}
+@media(max-width:640px){.fotos-grid{grid-template-columns:repeat(2,1fr);}}
+.foto-mes{
+  padding:.85rem 1rem;
+  background:rgba(255,255,255,.02);
+  display:flex;flex-direction:column;gap:.5rem;
+}
+.foto-mes-nome{
+  font-family:"Pressio","Arial Narrow",Arial,sans-serif;
+  font-size:.9rem;font-weight:900;text-transform:uppercase;
+  color:var(--branco);letter-spacing:.05em;
+}
+.foto-links{
+  display:flex;flex-direction:column;gap:4px;
+}
+.foto-link{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-size:.72rem;letter-spacing:.04em;
+  color:var(--verde);text-decoration:none;
+  border:1px solid rgba(66,206,2,.3);
+  border-radius:2px;padding:.25rem .6rem;
+  transition:background .15s,border-color .15s;
+  width:fit-content;
+}
+.foto-link:hover{background:rgba(66,206,2,.12);border-color:rgba(66,206,2,.6);}
+.foto-link svg{flex-shrink:0;opacity:.7;}
+
+
 .col-header{
   padding:1rem 1.25rem;
   background:rgba(0,0,0,.15);
@@ -585,6 +639,7 @@ function render() {
           makeCol(yFiles, "op", yr, globalIdx + pcCount) +
         '</div>' +
         makeTurmasSection(yFiles, yr, turmaIdx) +
+        makeFotosSection(yr) +
       '</div>';
 
     globalIdx += yFiles.length;
@@ -602,7 +657,66 @@ function render() {
 }
 
 /* ─────────────────────────────────────────────
-   LOAD DA API GITHUB
+   FOTOS 2026 — atividades por mês (cronológico)
+   Para adicionar: { label:"Nome da atividade", url:"link SharePoint" }
+───────────────────────────────────────────── */
+var FOTOS_2026 = [
+  {
+    mes: "Janeiro",
+    atividades: [
+      { label: "Reunião de Pais – Projeto Social 17.01", url: "https://colegiosantacruz.sharepoint.com/:f:/r/teams/mec/Documentos%20Compartilhados/2026/004_FOTOS%20e%20VIDEOS/01_JANEIRO/REUNI%C3%83O%20DE%20PAIS%20-%20Projeto%20social%2017.01?csf=1&web=1&e=SxuAtl" },
+      { label: "Sub 17 – Aprendizagem",                  url: "https://colegiosantacruz.sharepoint.com/:f:/r/teams/mec/Documentos%20Compartilhados/2026/004_FOTOS%20e%20VIDEOS/01_JANEIRO/Sub%2017%20Aprendizagem?csf=1&web=1&e=O155VD" },
+      { label: "Sub-11",                                  url: "https://colegiosantacruz.sharepoint.com/:f:/r/teams/mec/Documentos%20Compartilhados/2026/004_FOTOS%20e%20VIDEOS/01_JANEIRO/Sub-11?csf=1&web=1&e=iBBLJV" },
+      { label: "Sub-13",                                  url: "https://colegiosantacruz.sharepoint.com/:f:/r/teams/mec/Documentos%20Compartilhados/2026/004_FOTOS%20e%20VIDEOS/01_JANEIRO/Sub-13?csf=1&web=1&e=HFAIMc" },
+      { label: "Sub-13 Manhã",                            url: "https://colegiosantacruz.sharepoint.com/:f:/r/teams/mec/Documentos%20Compartilhados/2026/004_FOTOS%20e%20VIDEOS/01_JANEIRO/Sub-13%20manh%C3%A3?csf=1&web=1&e=4BQzao" },
+      { label: "Sub-15A",                                 url: "https://colegiosantacruz.sharepoint.com/:f:/r/teams/mec/Documentos%20Compartilhados/2026/004_FOTOS%20e%20VIDEOS/01_JANEIRO/Sub-15A?csf=1&web=1&e=18OBxG" }
+    ]
+  },
+  { mes: "Fevereiro", atividades: [] },
+  { mes: "Março",     atividades: [] },
+  { mes: "Abril",     atividades: [] },
+  { mes: "Maio",      atividades: [] },
+  { mes: "Junho",     atividades: [] }
+];
+
+var ICON_FOTO = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>';
+var ICON_EXT  = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+
+function makeFotosSection(yearKey) {
+  if (yearKey !== "2026") return "";
+
+  var fotosHtml = FOTOS_2026.map(function(m){
+    var temAtividades = m.atividades && m.atividades.length > 0;
+    var innerHtml = temAtividades
+      ? m.atividades.map(function(a){
+          return (
+            '<a class="foto-link" href="' + a.url + '" target="_blank">' +
+              ICON_FOTO + ' ' + a.label + ' ' + ICON_EXT +
+            '</a>'
+          );
+        }).join("")
+      : '<span style="font-size:.72rem;color:rgba(238,238,238,.28);font-style:italic">Em breve</span>';
+
+    return (
+      '<div class="foto-mes">' +
+        '<div class="foto-mes-nome">' + m.mes + '</div>' +
+        '<div class="foto-links">' + innerHtml + '</div>' +
+      '</div>'
+    );
+  }).join("");
+
+  return (
+    '<div class="fotos-section">' +
+      '<div class="fotos-header">' +
+        '<span class="fotos-title">📷 Fotos & Vídeos · 2026</span>' +
+        '<a href="Memoria_do_Mes_2026.html" style="font-size:.75rem;color:var(--amarelo);text-decoration:none;border:1px solid rgba(243,206,2,.35);border-radius:2px;padding:.2rem .65rem;letter-spacing:.05em;">Memória do Mês →</a>' +
+      '</div>' +
+      '<div class="fotos-grid">' + fotosHtml + '</div>' +
+    '</div>'
+  );
+}
+
+
 ───────────────────────────────────────────── */
 async function load() {
   try {
