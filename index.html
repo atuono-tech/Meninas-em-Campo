@@ -554,8 +554,7 @@ function makeCol(files, colKey, yearKey, idx0) {
   });
 
   var isPc = colKey === "pc";
-  var colTitle = isPc ? "Prestação de Contas" : "Relatórios &amp; Impacto";
-  var colDesc  = isPc ? "LIE · Captação" : "Institucional";
+  var colTitle = isPc ? "Prestação de Contas - LIE" : "Relatorio de Atividades e Impacto";
   var pillCls  = isPc ? "pc" : "op";
 
   var innerHtml = filtered.length
@@ -587,7 +586,7 @@ function makeTurmasSection(files, yearKey, idx0) {
   return (
     '<div class="turmas-section">' +
       '<div class="turmas-header">' +
-        '<span class="col-title">Dashboards de Turmas</span>' +
+        '<span class="col-title">Acompanhamento Mensal das Turmas</span>' +
         '<span class="col-desc">' + turmas.length + ' turma' + (turmas.length !== 1 ? 's' : '') + '</span>' +
       '</div>' +
       '<div class="turmas-grid">' +
@@ -625,9 +624,9 @@ function render() {
     var yFiles  = filtered.filter(function(f){ return classify(f.name).year === yr; });
     var yCls    = yr === "2025" ? "y2025" : "y2026";
     var yCount  = yFiles.length + " arquivo" + (yFiles.length !== 1 ? "s" : "");
-    var pcCount = yFiles.filter(function(f){ return classify(f.name).col === "pc" && !isTurma(f.name, yr); }).length;
-    var turmaIdx = globalIdx + yFiles.filter(function(f){ return !isTurma(f.name, yr); }).length;
-
+   var turmaCount = yFiles.filter(function(f){ return isTurma(f.name, yr); }).length;
+   var opCount    = yFiles.filter(function(f){ return classify(f.name).col === "op" && !isTurma(f.name, yr); }).length;
+   var pcCount    = yFiles.filter(function(f){ return classify(f.name).col === "pc" && !isTurma(f.name, yr); }).length;
     html +=
       '<div class="year-block">' +
         '<div class="year-header">' +
@@ -635,12 +634,10 @@ function render() {
           '<div class="year-line"></div>' +
           '<span class="year-count">' + yCount + '</span>' +
         '</div>' +
-        '<div class="cols">' +
-          makeCol(yFiles, "pc", yr, globalIdx) +
-          makeCol(yFiles, "op", yr, globalIdx + pcCount) +
-        '</div>' +
-        makeTurmasSection(yFiles, yr, turmaIdx) +
-        makeFotosSection(yr) +
+makeTurmasSection(yFiles, yr, globalIdx) +
+           makeRegsitrosSection(yr) +
+           makeCol(yFiles, "op", yr, globalIdx + turmaCount) +
+           makeCol(yFiles, "pc", yr, globalIdx + turmaCount + opCount) +
       '</div>';
 
     globalIdx += yFiles.length;
