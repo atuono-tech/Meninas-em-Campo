@@ -607,7 +607,7 @@ function render() {
   document.getElementById("total-count").textContent =
     filtered.length + " arquivo" + (filtered.length !== 1 ? "s" : "");
 
-  var years = ["2025","2026"].filter(function(yr){
+  var years = ["2026","2025"].filter(function(yr){
     return filtered.some(function(f){ return classify(f.name).year === yr; });
   });
 
