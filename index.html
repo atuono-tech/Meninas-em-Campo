@@ -9,7 +9,7 @@
 @font-face {
   font-family:"Pressio";
   src:url("Pressio_No__45_Black_Condensed.otf") format("opentype");
-  font-weight:900;
+  font-weight:900
 }
 :root{
   --verde:#42ce02; --amarelo:#f3ce02; --laranja:#f44c06;
@@ -556,7 +556,7 @@ function makeCol(files, colKey, yearKey, idx0) {
   var isPc = colKey === "pc";
   var colTitle = isPc ? "Prestação de Contas - LIE" : "Relatorio de Atividades e Impacto";
   var pillCls  = isPc ? "pc" : "op";
-
+  var colDesc  = isPc ? "LIE · Captação" : "Institucional";
   var innerHtml = filtered.length
     ? '<div class="cards">' + filtered.map(function(f, i){ return makeCard(f, idx0 + i); }).join("") + '</div>'
     : '<div class="empty card" style="animation:none">Nenhum arquivo nesta categoria.</div>';
