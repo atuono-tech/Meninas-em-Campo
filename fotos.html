@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!-- ════════════════════════════════════════════════
+     FOTOS & VÍDEOS · MENINAS EM CAMPO
+     ────────────────────────────────────────────────
+     COMO ADICIONAR UM MÊS NOVO:
+     1. Faça upload das fotos no GitHub (ex: pasta "FEV 26/")
+     2. No bloco MESES abaixo, adicione um novo objeto:
+        {
+          mes:   "Fevereiro 2026",
+          pasta: "FEV 26/",
+          fotos: ["Fev 1.jpeg", "Fev 2.jpeg", ...]
+        }
+     3. Salve e faça commit — pronto!
+     ════════════════════════════════════════════════ -->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Fotos & Vídeos 2026 · Meninas em Campo</title>
+<style>
+@font-face {
+  font-family:"Pressio";
+  src:url("Pressio_No__45_Black_Condensed.otf") format("opentype");
+  font-weight:900;
+}
+:root{ --verde:#42ce02; --amarelo:#f3ce02; --azul:#354d73; --branco:#EEEEEE; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{ font-family:"Arial Narrow",Arial,sans-serif; background:var(--azul); color:var(--branco); min-height:100vh; }
+body::after{
+  content:""; position:fixed; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:40px 40px; pointer-events:none; z-index:0;
+}
+
+/* HEADER */
+header{ position:relative; z-index:10; max-width:1100px; margin:0 auto; padding:2rem 2rem 0; }
+.logo-bar{ display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid var(--verde); padding-bottom:1rem; margin-bottom:2rem; flex-wrap:wrap; gap:.75rem; }
+.back-link{ display:inline-flex; align-items:center; gap:.4rem; font-family:"Pressio","Arial Narrow",Arial,sans-serif; font-size:.8rem; letter-spacing:.15em; text-transform:uppercase; color:var(--verde); text-decoration:none; border:1px solid rgba(66,206,2,.3); border-radius:2px; padding:.35rem .8rem; transition:background .15s; }
+.back-link:hover{ background:rgba(66,206,2,.1); }
+.page-titulo{ font-family:"Pressio","Arial Narrow",Arial,sans-serif; font-size:1.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--branco); }
+
+/* CONTEÚDO */
+.conteudo{ position:relative; z-index:10; max-width:1100px; margin:0 auto; padding:0 2rem 5rem; display:flex; flex-direction:column; gap:3rem; }
+
+/* BLOCO DE MÊS */
+.mes-bloco{}
+.mes-header{ display:flex; align-items:center; gap:.75rem; margin-bottom:1rem; }
+.mes-pill{ font-family:"Pressio","Arial Narrow",Arial,sans-serif; font-size:1.5rem; letter-spacing:.1em; text-transform:uppercase; background:#EEEEEE; color:var(--azul); padding:.2rem .75rem; border-radius:2px; }
+.mes-linha{ flex:1; height:1px; background:rgba(255,255,255,.08); }
+.mes-count{ font-size:.75rem; color:rgba(238,238,238,.5); white-space:nowrap; }
+
+/* GRID */
+.foto-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:5px; }
+.foto-item{ position:relative; overflow:hidden; aspect-ratio:4/3; background:rgba(255,255,255,.04); cursor:pointer; border:1px solid rgba(255,255,255,.07); transition:transform .2s, border-color .2s; }
+.foto-item:hover{ transform:scale(1.02); border-color:rgba(66,206,2,.4); z-index:2; }
+.foto-item img{ width:100%; height:100%; object-fit:cover; display:block; }
+.foto-num{ position:absolute; bottom:5px; right:7px; font-family:"Pressio","Arial Narrow",Arial,sans-serif; font-size:.6rem; letter-spacing:.1em; color:rgba(255,255,255,.45); background:rgba(0,0,0,.4); border-radius:2px; padding:1px 4px; }
+
+/* EM BREVE */
+.em-breve{ padding:1.5rem 1rem; font-size:.82rem; font-style:italic; color:rgba(238,238,238,.2); border:1px dashed rgba(255,255,255,.06); border-radius:2px; }
+
+/* LIGHTBOX */
+.lightbox{ display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,.93); flex-direction:column; align-items:center; justify-content:center; }
+.lightbox.ativo{ display:flex; }
+.lb-img-wrap{ position:relative; max-width:90vw; max-height:80vh; display:flex; align-items:center; justify-content:center; }
+.lb-img{ max-width:90vw; max-height:80vh; object-fit:contain; border:2px solid rgba(66,206,2,.2); border-radius:2px; box-shadow:0 0 80px rgba(0,0,0,.9); }
+.lb-nav{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.5); color:var(--verde); font-size:1.8rem; border:1px solid rgba(66,206,2,.25); border-radius:2px; cursor:pointer; width:44px; height:44px; display:flex; align-items:center; justify-content:center; transition:background .15s; user-select:none; }
+.lb-nav:hover{ background:rgba(66,206,2,.12); }
+.lb-prev{ left:-54px; } .lb-next{ right:-54px; }
+.lb-fechar{ position:absolute; top:16px; right:20px; color:rgba(238,238,238,.4); font-size:1.8rem; cursor:pointer; transition:color .15s; z-index:10; }
+.lb-fechar:hover{ color:var(--verde); }
+.lb-rodape{ margin-top:1rem; text-align:center; }
+.lb-mes{ font-family:"Pressio","Arial Narrow",Arial,sans-serif; font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(66,206,2,.6); margin-bottom:.2rem; }
+.lb-contador{ font-family:"Pressio","Arial Narrow",Arial,sans-serif; font-size:.85rem; letter-spacing:.12em; color:rgba(238,238,238,.4); }
+.lb-hint{ position:absolute; bottom:18px; left:50%; transform:translateX(-50%); font-size:.65rem; color:rgba(238,238,238,.15); letter-spacing:.1em; white-space:nowrap; }
+
+/* FOOTER */
+footer{ position:relative; z-index:10; max-width:1100px; margin:0 auto; padding:1rem 2rem 2rem; border-top:1px solid rgba(255,255,255,.06); font-size:.7rem; color:rgba(238,238,238,.2); }
+
+@media(max-width:640px){
+  header,.conteudo,footer{ padding-left:1rem; padding-right:1rem; }
+  .page-titulo{ font-size:1.3rem; }
+  .foto-grid{ grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:4px; }
+  .lb-prev{ left:-42px; } .lb-next{ right:-42px; }
+}
+@media(max-width:420px){ .lb-prev,.lb-next{ display:none; } }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     CONFIG — EDITE AQUI PARA ADICIONAR MESES
+     ══════════════════════════════════════════════ -->
+<script>
+const MESES = [
+
+  {
+    mes:   "Janeiro 2026",
+    pasta: "JAN 26/",
+    fotos: [
+      "Jan 1.jpeg",
+      "Jan 2.jpeg",
+      "Jan 3.jpeg",
+      "Jan 4.jpeg",
+      "Jan 5.jpeg",
+      "Jan 6.jpeg",
+      "Jan 7.jpeg",
+      "Jan 8.jpeg",
+      "Jan 9.jpeg"
+    ]
+  },
+
+  {
+    mes:   "Fevereiro 2026",
+    pasta: "FEV 26/",
+    fotos: []   // ← deixe vazio para mostrar "Em breve"
+  },
+
+  {
+    mes:   "Março 2026",
+    pasta: "MAR 26/",
+    fotos: []
+  },
+
+  {
+    mes:   "Abril 2026",
+    pasta: "ABRIL 26/",
+    fotos: []
+  },
+
+  {
+    mes:   "Maio 2026",
+    pasta: "MAIO 26/",
+    fotos: []
+  },
+
+  {
+    mes:   "Junho 2026",
+    pasta: "JUNHO 26/",
+    fotos: []
+  }
+
+];
+</script>
+<!-- ══════════════════════════════════════════════
+     FIM DA CONFIG
+     ══════════════════════════════════════════════ -->
+
+
+<header>
+  <div class="logo-bar">
+    <a class="back-link" href="index.html">← Publicações</a>
+    <div class="page-titulo">Fotos &amp; Vídeos · 2026</div>
+  </div>
+</header>
+
+<main class="conteudo" id="js-conteudo"></main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="js-lb" role="dialog" aria-modal="true">
+  <span class="lb-fechar" id="js-fechar">✕</span>
+  <div class="lb-img-wrap">
+    <button class="lb-nav lb-prev" id="js-prev">‹</button>
+    <img class="lb-img" id="js-lb-img" src="" alt=""/>
+    <button class="lb-nav lb-next" id="js-next">›</button>
+  </div>
+  <div class="lb-rodape">
+    <div class="lb-mes" id="js-lb-mes"></div>
+    <div class="lb-contador" id="js-contador"></div>
+  </div>
+  <div class="lb-hint">← → para navegar · ESC para fechar</div>
+</div>
+
+<footer>Meninas em Campo · Fotos &amp; Vídeos 2026</footer>
+
+<script>
+// Monta todos os meses
+const conteudo = document.getElementById('js-conteudo');
+
+// Lista global de todas as fotos para o lightbox navegar entre meses
+const todasFotos = []; // { pasta, nome, mesNome }
+
+MESES.forEach(m => {
+  const bloco = document.createElement('div');
+  bloco.className = 'mes-bloco';
+
+  const totalTxt = m.fotos.length > 0 ? m.fotos.length + ' foto' + (m.fotos.length !== 1 ? 's' : '') : '';
+
+  bloco.innerHTML = `
+    <div class="mes-header">
+      <div class="mes-pill">${m.mes}</div>
+      <div class="mes-linha"></div>
+      ${totalTxt ? `<div class="mes-count">${totalTxt}</div>` : ''}
+    </div>
+  `;
+
+  if (m.fotos.length === 0) {
+    bloco.innerHTML += `<div class="em-breve">Em breve</div>`;
+  } else {
+    const grid = document.createElement('div');
+    grid.className = 'foto-grid';
+
+    m.fotos.forEach((nome, i) => {
+      const globalIndex = todasFotos.length;
+      todasFotos.push({ pasta: m.pasta, nome, mesNome: m.mes });
+
+      const item = document.createElement('div');
+      item.className = 'foto-item';
+      item.innerHTML = `
+        <img src="${m.pasta}${nome}" alt="${m.mes} · foto ${i+1}" loading="lazy"/>
+        <span class="foto-num">${String(i+1).padStart(2,'0')}</span>
+      `;
+      item.addEventListener('click', () => abrirLb(globalIndex));
+      grid.appendChild(item);
+    });
+
+    bloco.appendChild(grid);
+  }
+
+  conteudo.appendChild(bloco);
+});
+
+// LIGHTBOX
+let ibAtual = 0;
+const lb     = document.getElementById('js-lb');
+const lbImg  = document.getElementById('js-lb-img');
+const lbCont = document.getElementById('js-contador');
+const lbMes  = document.getElementById('js-lb-mes');
+
+function abrirLb(i)  { ibAtual=i; mostrarFoto(); lb.classList.add('ativo'); document.body.style.overflow='hidden'; }
+function fecharLb()  { lb.classList.remove('ativo'); document.body.style.overflow=''; }
+function mostrarFoto(){
+  const f = todasFotos[ibAtual];
+  lbImg.src = f.pasta + f.nome;
+  lbMes.textContent = f.mesNome;
+  lbCont.textContent = (ibAtual+1) + ' / ' + todasFotos.length;
+}
+function anterior() { ibAtual=(ibAtual-1+todasFotos.length)%todasFotos.length; mostrarFoto(); }
+function proxima()  { ibAtual=(ibAtual+1)%todasFotos.length; mostrarFoto(); }
+
+document.getElementById('js-fechar').addEventListener('click', fecharLb);
+document.getElementById('js-prev').addEventListener('click', anterior);
+document.getElementById('js-next').addEventListener('click', proxima);
+lb.addEventListener('click', e => { if(e.target===lb) fecharLb(); });
+document.addEventListener('keydown', e => {
+  if(!lb.classList.contains('ativo')) return;
+  if(e.key==='Escape') fecharLb();
+  if(e.key==='ArrowLeft') anterior();
+  if(e.key==='ArrowRight') proxima();
+});
+let xS=null;
+lb.addEventListener('touchstart', e => { xS=e.touches[0].clientX; });
+lb.addEventListener('touchend',   e => {
+  if(!xS) return;
+  (xS - e.changedTouches[0].clientX) > 50 ? proxima() : anterior();
+  xS = null;
+});
+</script>
+</body>
+</html>
