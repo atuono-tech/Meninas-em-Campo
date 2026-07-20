@@ -3,12 +3,12 @@
      FOTOS & VÍDEOS · MENINAS EM CAMPO
      ────────────────────────────────────────────────
      COMO ADICIONAR UM MÊS NOVO:
-     1. Faça upload das fotos no GitHub (ex: pasta "FEV 26/")
+     1. Faça upload das fotos no GitHub (ex: pasta "JUL 26/")
      2. No bloco MESES abaixo, adicione um novo objeto:
         {
-          mes:   "Fevereiro 2026",
-          pasta: "FEV 26/",
-          fotos: ["Fev 1.jpeg", "Fev 2.jpeg", ...]
+          mes:   "Julho 2026",
+          pasta: "JUL 26/",
+          fotos: ["Jul 1.jpeg", "Jul 2.jpeg", ...]
         }
      3. Salve e faça commit — pronto!
      ════════════════════════════════════════════════ -->
@@ -34,35 +34,22 @@ body::after{
     linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
   background-size:40px 40px; pointer-events:none; z-index:0;
 }
-
-/* HEADER */
 header{ position:relative; z-index:10; max-width:1100px; margin:0 auto; padding:2rem 2rem 0; }
 .logo-bar{ display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid var(--verde); padding-bottom:1rem; margin-bottom:2rem; flex-wrap:wrap; gap:.75rem; }
 .back-link{ display:inline-flex; align-items:center; gap:.4rem; font-family:"Pressio","Arial Narrow",Arial,sans-serif; font-size:.8rem; letter-spacing:.15em; text-transform:uppercase; color:var(--verde); text-decoration:none; border:1px solid rgba(66,206,2,.3); border-radius:2px; padding:.35rem .8rem; transition:background .15s; }
 .back-link:hover{ background:rgba(66,206,2,.1); }
 .page-titulo{ font-family:"Pressio","Arial Narrow",Arial,sans-serif; font-size:1.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--branco); }
-
-/* CONTEÚDO */
 .conteudo{ position:relative; z-index:10; max-width:1100px; margin:0 auto; padding:0 2rem 5rem; display:flex; flex-direction:column; gap:3rem; }
-
-/* BLOCO DE MÊS */
-.mes-bloco{}
 .mes-header{ display:flex; align-items:center; gap:.75rem; margin-bottom:1rem; }
 .mes-pill{ font-family:"Pressio","Arial Narrow",Arial,sans-serif; font-size:1.5rem; letter-spacing:.1em; text-transform:uppercase; background:#EEEEEE; color:var(--azul); padding:.2rem .75rem; border-radius:2px; }
 .mes-linha{ flex:1; height:1px; background:rgba(255,255,255,.08); }
 .mes-count{ font-size:.75rem; color:rgba(238,238,238,.5); white-space:nowrap; }
-
-/* GRID */
 .foto-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:5px; }
 .foto-item{ position:relative; overflow:hidden; aspect-ratio:4/3; background:rgba(255,255,255,.04); cursor:pointer; border:1px solid rgba(255,255,255,.07); transition:transform .2s, border-color .2s; }
 .foto-item:hover{ transform:scale(1.02); border-color:rgba(66,206,2,.4); z-index:2; }
 .foto-item img{ width:100%; height:100%; object-fit:cover; display:block; }
 .foto-num{ position:absolute; bottom:5px; right:7px; font-family:"Pressio","Arial Narrow",Arial,sans-serif; font-size:.6rem; letter-spacing:.1em; color:rgba(255,255,255,.45); background:rgba(0,0,0,.4); border-radius:2px; padding:1px 4px; }
-
-/* EM BREVE */
 .em-breve{ padding:1.5rem 1rem; font-size:.82rem; font-style:italic; color:rgba(238,238,238,.2); border:1px dashed rgba(255,255,255,.06); border-radius:2px; }
-
-/* LIGHTBOX */
 .lightbox{ display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,.93); flex-direction:column; align-items:center; justify-content:center; }
 .lightbox.ativo{ display:flex; }
 .lb-img-wrap{ position:relative; max-width:90vw; max-height:80vh; display:flex; align-items:center; justify-content:center; }
@@ -76,24 +63,13 @@ header{ position:relative; z-index:10; max-width:1100px; margin:0 auto; padding:
 .lb-mes{ font-family:"Pressio","Arial Narrow",Arial,sans-serif; font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(66,206,2,.6); margin-bottom:.2rem; }
 .lb-contador{ font-family:"Pressio","Arial Narrow",Arial,sans-serif; font-size:.85rem; letter-spacing:.12em; color:rgba(238,238,238,.4); }
 .lb-hint{ position:absolute; bottom:18px; left:50%; transform:translateX(-50%); font-size:.65rem; color:rgba(238,238,238,.15); letter-spacing:.1em; white-space:nowrap; }
-
-/* FOOTER */
 footer{ position:relative; z-index:10; max-width:1100px; margin:0 auto; padding:1rem 2rem 2rem; border-top:1px solid rgba(255,255,255,.06); font-size:.7rem; color:rgba(238,238,238,.2); }
-
-@media(max-width:640px){
-  header,.conteudo,footer{ padding-left:1rem; padding-right:1rem; }
-  .page-titulo{ font-size:1.3rem; }
-  .foto-grid{ grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:4px; }
-  .lb-prev{ left:-42px; } .lb-next{ right:-42px; }
-}
+@media(max-width:640px){ header,.conteudo,footer{ padding-left:1rem; padding-right:1rem; } .page-titulo{ font-size:1.3rem; } .foto-grid{ grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:4px; } .lb-prev{ left:-42px; } .lb-next{ right:-42px; } }
 @media(max-width:420px){ .lb-prev,.lb-next{ display:none; } }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════
-     CONFIG — EDITE AQUI PARA ADICIONAR MESES
-     ══════════════════════════════════════════════ -->
 <script>
 const MESES = [
 
@@ -101,54 +77,66 @@ const MESES = [
     mes:   "Janeiro 2026",
     pasta: "JAN 26/",
     fotos: [
-      "Jan 1.jpeg",
-      "Jan 2.jpeg",
-      "Jan 3.jpeg",
-      "Jan 4.jpeg",
-      "Jan 5.jpeg",
-      "Jan 6.jpeg",
-      "Jan 7.jpeg",
-      "Jan 8.jpeg",
-      "Jan 9.jpeg"
+      "Jan 1.jpeg","Jan 2.jpeg","Jan 3.jpeg","Jan 4.jpeg","Jan 5.jpeg",
+      "Jan 6.jpeg","Jan 7.jpeg","Jan 8.jpeg","Jan 9.jpeg"
     ]
   },
 
   {
     mes:   "Fevereiro 2026",
     pasta: "FEV 26/",
-    fotos: []   // ← deixe vazio para mostrar "Em breve"
+    fotos: [
+      "Fev 1.jpeg","Fev 2.jpeg","Fev 3.jpeg","Fev 4.jpeg","Fev 5.jpeg",
+      "Fev 6.jpeg","Fev 7.jpeg","Fev 8.jpeg","Fev 9.jpeg","Fev 10.jpeg",
+      "Fev 11.jpeg"
+    ]
   },
 
   {
     mes:   "Março 2026",
     pasta: "MAR 26/",
-    fotos: []
+    fotos: [
+      "Mar 1.jpeg","Mar 2.jpeg","Mar 3.jpeg","Mar 4.jpeg","Mar 5.jpeg",
+      "Mar 6.jpeg","Mar 7.jpeg","Mar 8.jpeg","Mar 9.jpeg","Mar 10.jpeg",
+      "Mar 11.jpeg","Mar 12.jpeg","Mar 13.jpeg","Mar 14.jpeg","Mar 15.jpeg"
+    ]
   },
 
   {
     mes:   "Abril 2026",
     pasta: "ABRIL 26/",
-    fotos: []
+    fotos: [
+      "Abril 1.jpeg","Abril 2.jpeg","Abril 3.jpeg","Abril 4.jpeg","Abril 5.jpeg",
+      "Abril 6.jpeg","Abril 7.jpeg","Abril 8.jpeg","Abril 9.jpeg","Abril 10.jpeg",
+      "Abril 11.jpeg","Abril 12.jpeg","Abril 13.jpeg","Abril 14.jpeg","Abril 15.jpeg"
+    ]
   },
 
   {
     mes:   "Maio 2026",
     pasta: "MAIO 26/",
-    fotos: []
+    fotos: [
+      "Maio 1.jpeg","Maio 2.jpeg","Maio 3.jpeg","Maio 4.jpeg","Maio 5.jpeg",
+      "Maio 6.jpeg","Maio 7.jpeg","Maio 8.jpeg","Maio 9.jpeg","Maio 10.jpeg",
+      "Maio 11.jpeg","Maio 12.jpeg","Maio 13.jpeg","Maio 14.jpeg","Maio 15.jpeg",
+      "Maio 16.jpeg","Maio 17.jpeg","Maio 18.jpeg"
+    ]
   },
 
   {
     mes:   "Junho 2026",
     pasta: "JUNHO 26/",
-    fotos: []
+    fotos: [
+      "Junho 1.jpeg","Junho 2.jpeg","Junho 3.jpeg","Junho 4.jpeg","Junho 5.jpeg",
+      "Junho 6.jpeg","Junho 7.jpeg","Junho 8.jpeg","Junho 9.jpeg","Junho 10.jpeg",
+      "Junho 11.jpeg","Junho 12.jpeg","Junho 13.jpeg","Junho 14.jpeg","Junho 15.jpeg",
+      "Junho 16.jpeg","Junho 17.jpeg","Junho 18.jpeg","Junho 19.jpeg","Junho 20.jpeg",
+      "Junho 21.jpeg","Junho 22.jpeg"
+    ]
   }
 
 ];
 </script>
-<!-- ══════════════════════════════════════════════
-     FIM DA CONFIG
-     ══════════════════════════════════════════════ -->
-
 
 <header>
   <div class="logo-bar">
@@ -159,7 +147,6 @@ const MESES = [
 
 <main class="conteudo" id="js-conteudo"></main>
 
-<!-- LIGHTBOX -->
 <div class="lightbox" id="js-lb" role="dialog" aria-modal="true">
   <span class="lb-fechar" id="js-fechar">✕</span>
   <div class="lb-img-wrap">
@@ -177,16 +164,11 @@ const MESES = [
 <footer>Meninas em Campo · Fotos &amp; Vídeos 2026</footer>
 
 <script>
-// Monta todos os meses
 const conteudo = document.getElementById('js-conteudo');
-
-// Lista global de todas as fotos para o lightbox navegar entre meses
-const todasFotos = []; // { pasta, nome, mesNome }
+const todasFotos = [];
 
 MESES.forEach(m => {
   const bloco = document.createElement('div');
-  bloco.className = 'mes-bloco';
-
   const totalTxt = m.fotos.length > 0 ? m.fotos.length + ' foto' + (m.fotos.length !== 1 ? 's' : '') : '';
 
   bloco.innerHTML = `
@@ -202,44 +184,31 @@ MESES.forEach(m => {
   } else {
     const grid = document.createElement('div');
     grid.className = 'foto-grid';
-
     m.fotos.forEach((nome, i) => {
-      const globalIndex = todasFotos.length;
+      const gi = todasFotos.length;
       todasFotos.push({ pasta: m.pasta, nome, mesNome: m.mes });
-
       const item = document.createElement('div');
       item.className = 'foto-item';
-      item.innerHTML = `
-        <img src="${m.pasta}${nome}" alt="${m.mes} · foto ${i+1}" loading="lazy"/>
-        <span class="foto-num">${String(i+1).padStart(2,'0')}</span>
-      `;
-      item.addEventListener('click', () => abrirLb(globalIndex));
+      item.innerHTML = `<img src="${m.pasta}${nome}" alt="${m.mes} foto ${i+1}" loading="lazy"/><span class="foto-num">${String(i+1).padStart(2,'0')}</span>`;
+      item.addEventListener('click', () => abrirLb(gi));
       grid.appendChild(item);
     });
-
     bloco.appendChild(grid);
   }
-
   conteudo.appendChild(bloco);
 });
 
-// LIGHTBOX
 let ibAtual = 0;
-const lb     = document.getElementById('js-lb');
-const lbImg  = document.getElementById('js-lb-img');
-const lbCont = document.getElementById('js-contador');
-const lbMes  = document.getElementById('js-lb-mes');
+const lb    = document.getElementById('js-lb');
+const lbImg = document.getElementById('js-lb-img');
+const lbCont= document.getElementById('js-contador');
+const lbMes = document.getElementById('js-lb-mes');
 
 function abrirLb(i)  { ibAtual=i; mostrarFoto(); lb.classList.add('ativo'); document.body.style.overflow='hidden'; }
 function fecharLb()  { lb.classList.remove('ativo'); document.body.style.overflow=''; }
-function mostrarFoto(){
-  const f = todasFotos[ibAtual];
-  lbImg.src = f.pasta + f.nome;
-  lbMes.textContent = f.mesNome;
-  lbCont.textContent = (ibAtual+1) + ' / ' + todasFotos.length;
-}
-function anterior() { ibAtual=(ibAtual-1+todasFotos.length)%todasFotos.length; mostrarFoto(); }
-function proxima()  { ibAtual=(ibAtual+1)%todasFotos.length; mostrarFoto(); }
+function mostrarFoto(){ const f=todasFotos[ibAtual]; lbImg.src=f.pasta+f.nome; lbMes.textContent=f.mesNome; lbCont.textContent=(ibAtual+1)+' / '+todasFotos.length; }
+function anterior()  { ibAtual=(ibAtual-1+todasFotos.length)%todasFotos.length; mostrarFoto(); }
+function proxima()   { ibAtual=(ibAtual+1)%todasFotos.length; mostrarFoto(); }
 
 document.getElementById('js-fechar').addEventListener('click', fecharLb);
 document.getElementById('js-prev').addEventListener('click', anterior);
@@ -253,11 +222,7 @@ document.addEventListener('keydown', e => {
 });
 let xS=null;
 lb.addEventListener('touchstart', e => { xS=e.touches[0].clientX; });
-lb.addEventListener('touchend',   e => {
-  if(!xS) return;
-  (xS - e.changedTouches[0].clientX) > 50 ? proxima() : anterior();
-  xS = null;
-});
+lb.addEventListener('touchend',   e => { if(!xS) return; (xS-e.changedTouches[0].clientX)>50?proxima():anterior(); xS=null; });
 </script>
 </body>
 </html>
