@@ -71,7 +71,7 @@ footer{ position:relative; z-index:10; max-width:1100px; margin:0 auto; padding:
 <body>
 
 <script>
-const MESES = [
+const MESES_RESERVA = [
 
   {
     mes:   "Janeiro 2026",
@@ -167,7 +167,40 @@ const MESES = [
 const conteudo = document.getElementById('js-conteudo');
 const todasFotos = [];
 
-MESES.forEach(m => {
+/* ── LEITURA AUTOMÁTICA ──
+   Toda imagem (.jpg, .jpeg, .png, .webp) dentro de uma pasta de mês (ex.: "SET 26") aparece aqui sozinha.
+   Se o GitHub não responder, usa a lista de reserva acima. */
+const REPO = "atuono-tech/Meninas-em-Campo";
+const ABR = ["JAN","FEV","MAR","ABR","MAI","JUN","JUL","AGO","SET","OUT","NOV","DEZ"];
+const NOMES = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+function lerPasta(p){
+  const s=p.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase();
+  const m=ABR.findIndex(a=>s.indexOf(a)===0); if(m<0) return null;
+  let a=(s.match(/(\d{2,4})\s*$/)||[])[1]; if(!a) return null; if(a.length===2) a="20"+a;
+  return {m:m+1,y:a};
+}
+function montar(paths){
+  const g={};
+  paths.forEach(p=>{
+    const parts=p.split("/"); if(parts.length!==2 || !/\.(jpe?g|png|webp)$/i.test(parts[1])) return;
+    const info=lerPasta(parts[0]); if(!info) return;
+    const k=info.y+"-"+String(info.m).padStart(2,"0");
+    (g[k]=g[k]||{mes:NOMES[info.m-1]+" "+info.y,pasta:parts[0]+"/",fotos:[]}).fotos.push(parts[1]);
+  });
+  return Object.keys(g).sort().map(k=>{ g[k].fotos.sort((a,b)=>a.localeCompare(b,"pt",{numeric:true})); return g[k]; });
+}
+function carregar(){
+  try{ const c=JSON.parse(sessionStorage.getItem("mec_publicacoes_tree")||"null");
+       if(c && Date.now()-c.t<5*60*1000){ const M=montar(c.paths); return Promise.resolve(M.length?M:MESES_RESERVA); } }catch(e){}
+  return fetch("https://api.github.com/repos/"+REPO+"/git/trees/main?recursive=1")
+    .then(r=>{ if(!r.ok) throw 0; return r.json(); })
+    .then(d=>{ const paths=(d.tree||[]).filter(x=>x.type==="blob").map(x=>x.path);
+               try{ sessionStorage.setItem("mec_publicacoes_tree",JSON.stringify({t:Date.now(),paths})); }catch(e){}
+               const M=montar(paths); return M.length?M:MESES_RESERVA; })
+    .catch(()=>MESES_RESERVA);
+}
+
+carregar().then(MESES => MESES.forEach(m => {
   const bloco = document.createElement('div');
   const totalTxt = m.fotos.length > 0 ? m.fotos.length + ' foto' + (m.fotos.length !== 1 ? 's' : '') : '';
 
@@ -189,14 +222,14 @@ MESES.forEach(m => {
       todasFotos.push({ pasta: m.pasta, nome, mesNome: m.mes });
       const item = document.createElement('div');
       item.className = 'foto-item';
-      item.innerHTML = `<img src="${m.pasta}${nome}" alt="${m.mes} foto ${i+1}" loading="lazy"/><span class="foto-num">${String(i+1).padStart(2,'0')}</span>`;
+      item.innerHTML = `<img src="${encodeURI(m.pasta+nome)}" alt="${m.mes} foto ${i+1}" loading="lazy"/><span class="foto-num">${String(i+1).padStart(2,'0')}</span>`;
       item.addEventListener('click', () => abrirLb(gi));
       grid.appendChild(item);
     });
     bloco.appendChild(grid);
   }
   conteudo.appendChild(bloco);
-});
+}));
 
 let ibAtual = 0;
 const lb    = document.getElementById('js-lb');
@@ -206,7 +239,7 @@ const lbMes = document.getElementById('js-lb-mes');
 
 function abrirLb(i)  { ibAtual=i; mostrarFoto(); lb.classList.add('ativo'); document.body.style.overflow='hidden'; }
 function fecharLb()  { lb.classList.remove('ativo'); document.body.style.overflow=''; }
-function mostrarFoto(){ const f=todasFotos[ibAtual]; lbImg.src=f.pasta+f.nome; lbMes.textContent=f.mesNome; lbCont.textContent=(ibAtual+1)+' / '+todasFotos.length; }
+function mostrarFoto(){ const f=todasFotos[ibAtual]; lbImg.src=encodeURI(f.pasta+f.nome); lbMes.textContent=f.mesNome; lbCont.textContent=(ibAtual+1)+' / '+todasFotos.length; }
 function anterior()  { ibAtual=(ibAtual-1+todasFotos.length)%todasFotos.length; mostrarFoto(); }
 function proxima()   { ibAtual=(ibAtual+1)%todasFotos.length; mostrarFoto(); }
 
