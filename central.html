@@ -238,7 +238,7 @@ footer a{color:#fff}
   <h2>Trilha financeira por financiador</h2>
   <p class="intro">Checklist do mês selecionado acima. Clique uma vez para marcar como feito e outra para "não se aplica neste mês".</p>
   <div class="tabela-wrap"><table class="matriz" id="matriz"></table></div>
-  <p class="nota">Periodicidade de prestação de contas de cada financiador: preencher em <code>PRAZOS</code>. Common Goal e Academia de Meninas entram a partir de outubro.</p>
+  <p class="nota">Periodicidade de prestação de contas de cada financiador: preencher em <code>PRAZOS</code>. Common Goal e Academia de Meninas entram a partir de outubro. Contas: LIE na conta 10 – LIE (BB), Emenda na 26 – BB Academia, BASF e Common Goal na 26 – Itaú (mesmo extrato para os dois).</p>
 </section>
 
 <!-- ============ 3. LINKS ============ -->
@@ -274,20 +274,23 @@ const PRAZOS = [
 
 // Marcos fixos do ano
 const MARCOS = [
-  {mes:4,  tipo:'auto',    txt:'Autoavaliação das meninas (1ª)'},
-  {mes:9,  tipo:'auto',    txt:'Autoavaliação das meninas (2ª)'},
+  {mes:3,  tipo:'auto',    txt:'Teste técnico (scout) — 1ª aplicação (fev–mar)'},
+  {mes:4,  tipo:'auto',    txt:'Autoavaliação — Ciclo 1 (aplicada mar–mai)'},
+  {mes:7,  tipo:'auto',    txt:'Teste técnico (scout) — 2ª aplicação'},
+  {mes:9,  tipo:'auto',    txt:'Autoavaliação — Ciclo 2 (aplicada ago–set)'},
   {mes:10, tipo:'projeto', txt:'Início do Cursinho Popular Sub-17'},
   {mes:10, tipo:'projeto', txt:'Academia de Meninas (4º trimestre)'},
-  {mes:12, tipo:'auto',    txt:'Autoavaliação das meninas (3ª)'},
+  {mes:12, tipo:'auto',    txt:'Autoavaliação — Ciclo 3'},
+  {mes:12, tipo:'auto',    txt:'Teste técnico (scout) — 3ª aplicação (comparativa)'},
   {mes:12, tipo:'imp',     txt:'Relatório Impacto 2026'},
 ];
 
 // Financiadores na trilha financeira (desde = mês em que entra)
 const FINANCIADORES = [
-  {id:'lie',   nome:'LIE',         proj:'Programa MEC',   desde:1},
-  {id:'basf',  nome:'BASF',        proj:'Primeiro Tempo', desde:1},
-  {id:'emenda',nome:'Emenda',      proj:'AMC',            desde:1, desde2:10, proj2:'AMC + Academia de Meninas'},
-  {id:'cg',    nome:'Common Goal', proj:'Cursinho Sub-17',desde:10},
+  {id:'lie',   nome:'LIE',         proj:'Programa MEC',   conta:'10 – LIE (BB)',     desde:1},
+  {id:'basf',  nome:'BASF',        proj:'Primeiro Tempo', conta:'26 – Itaú',         desde:1},
+  {id:'emenda',nome:'Emenda',      proj:'AMC',            conta:'26 – BB Academia',  desde:1, desde2:10, proj2:'AMC + Academia de Meninas'},
+  {id:'cg',    nome:'Common Goal', proj:'Cursinho Sub-17',conta:'26 – Itaú',         desde:10},
 ];
 const ITENS_FIN = [
   'Extrato bancário recebido e arquivado',
@@ -303,8 +306,8 @@ const ITENS_FIN = [
 
 // Links
 const LINKS = [
-  {nome:'Produtos 2026', desc:'Página inicial com as pastas mensais: frequência e evasão, dashboards das educadoras e da categoria de base.', url:'https://atuono-tech.github.io/Meninas-em-Campo/'},
-  {nome:'Atividades em 2026', desc:'Página atualizada todo mês a partir do descritivo.', url:''},
+  {nome:'Publicações 2026', desc:'Página inicial com os fechamentos mensais e demais publicações — atualiza sozinha.', url:'https://atuono-tech.github.io/Meninas-em-Campo/'},
+  {nome:'Atividades em 2026', desc:'Página atualizada todo mês a partir do descritivo.', url:'https://atuono-tech.github.io/Meninas-em-Campo/Atividades%20em%202026.html'},
   {nome:'Produtos 2025', desc:'Relatório de Impacto 2025, Dashboard LIE Ciclo 1 e Livro de Atividades 2025.', url:'https://atuono-tech.github.io/mec_dashboards_2025/'},
   {nome:'Repositório no GitHub', desc:'Onde os arquivos mensais são publicados.', url:'https://github.com/atuono-tech/Meninas-em-Campo'},
   {nome:'Site do programa', desc:'meninasemcampo.org.br', url:'https://meninasemcampo.org.br'},
@@ -313,6 +316,11 @@ const LINKS = [
 /* =====================================================================
    ROTEIRO — tarefas (fase 1–4; trilha prog | fin | auto | imp; meses = só nesses meses)
    ===================================================================== */
+// Nomes das exportações do Microsoft Forms (N = total de respostas, muda a cada exportação)
+const FORM_SUB  = 'Diário de Atividades _ MEC Sub-11 ao Sub-17(1-N).xlsx';
+const FORM_BASE = 'Diário de Atividades e Registro Pós-Treino - Categoria de Base (Sub-15 e Sub-17) (1-N).xlsx';
+const AUTO = 'Auto Avaliação 2026.xlsx'; // arquivo único do ano (abril, setembro e dezembro)
+const PRESTACAO = 'MeC_Prestacao_VF_MM.xlsx'; // planilha única; MM = mês da última atualização (ex.: VF_08)
 const C = (pasta, arq) => `<code>${RAIZ} / ${pasta}${arq ? ' / ' + arq : ''}</code>`;
 const CONF = '<span class="confirmar">a confirmar</span>';
 
@@ -327,19 +335,19 @@ const TAREFAS = [
  atencao:'Sem a presença do mês, a Fase 2 não começa. Se o TOTVS estiver indisponível, avisar a coordenação e registrar o atraso.'},
 {id:'p02', fase:1, t:'prog', nome:'Formulário das educadoras — Sub-11 a Sub-17',
  resumo:'Garantir que o Diário de Atividades do mês está completo.',
- onde:[C(PASTAS.form) + CONF],
- passos:['Abrir as respostas do formulário Diário de Atividades MEC (Sub-11 ao Sub-17).',
+ onde:[C(PASTAS.form, FORM_SUB)],
+ passos:['Abrir as respostas do formulário Diário de Atividades | MEC Sub-11 ao Sub-17.',
    'Conferir quais turmas e datas do mês ainda estão sem registro.',
    'Mandar mensagem às educadoras com pendência: prazo dia 5.',
-   'Salvar a exportação das respostas em <b>02 Formularios_Educadoras</b>.'],
- atencao:'Se no dia 5 ainda faltar resposta, levar à coordenação. Não fechar o mês com turmas sem registro sem anotar a lacuna.'},
-{id:'p03', fase:1, t:'prog', nome:'Formulário das educadoras — Categoria de Base',
- resumo:'Mesmo controle para o formulário da equipe da Categoria de Base.',
- onde:[C(PASTAS.form) + CONF],
- passos:['Abrir as respostas do formulário da Categoria de Base.',
+   'Exportar as respostas para Excel e salvar em <b>02 Formularios_Educadoras</b>, apagando a exportação anterior.'],
+ atencao:'O número entre parênteses muda a cada exportação (total de respostas). Manter só o arquivo mais recente na pasta. Se no dia 5 ainda faltar resposta, levar à coordenação. Não fechar o mês com turmas sem registro sem anotar a lacuna.'},
+{id:'p03', fase:1, t:'prog', nome:'Formulário das educadoras — Categoria de Base (Sub-15 e Sub-17)',
+ resumo:'Diário de Atividades e Registro Pós-Treino da Categoria de Base.',
+ onde:[C(PASTAS.form, FORM_BASE)],
+ passos:['Abrir as respostas do formulário Diário de Atividades e Registro Pós-Treino — Categoria de Base (Sub-15 e Sub-17).',
    'Conferir registros pendentes do mês.',
    'Cobrar a equipe responsável com prazo dia 5.',
-   'Salvar a exportação em <b>02 Formularios_Educadoras</b>, separada do formulário Sub-11 a Sub-17.'],
+   'Exportar para Excel e salvar em <b>02 Formularios_Educadoras</b>, apagando a exportação anterior deste formulário.'],
  atencao:'São equipes e formulários diferentes: os dados não se misturam e geram dashboards separados.'},
 {id:'p04', fase:1, t:'prog', nome:'Checar a seção do mês no Descritivo',
  resumo:'Verificar se todas as áreas escreveram sua parte do mês no descritivo acumulado.',
@@ -350,10 +358,11 @@ const TAREFAS = [
  atencao:'O descritivo alimenta a página pública "Atividades em 2026". Pedir às equipes que não escrevam nomes nem casos individuais nele.'},
 {id:'a01', fase:1, t:'auto', meses:[4,9,12], nome:'Autoavaliação — aplicar e coletar',
  resumo:'Mês de autoavaliação: garantir que as meninas responderam.',
- onde:[C(PASTAS.auto) + CONF],
+ onde:[C(PASTAS.auto, AUTO)],
  passos:['Confirmar com as coordenações as datas de aplicação por turma.',
    'Acompanhar a taxa de resposta por turma.',
-   'Exportar as respostas e salvar em <b>03 Autoavaliacao</b>.']},
+   'Exportar as respostas e salvar em <b>03 Autoavaliacao</b> como <code>Auto Avaliação 2026.xlsx</code>, substituindo a versão anterior.'],
+ atencao:'É um arquivo único do ano: a exportação traz abril, setembro e dezembro juntos.'},
 {id:'f01', fase:1, t:'fin', nome:'Receber extrato bancário, encargos e tributos',
  resumo:'Extrato do Financeiro da Mantenedora e informações do RH, conferidos com Compras/ADM.',
  onde:[C(PASTAS.fin) + CONF],
@@ -381,14 +390,14 @@ const TAREFAS = [
  atencao:'Somente a versão agregada vai para o GitHub.'},
 {id:'p06', fase:2, t:'prog', nome:'Dashboard das educadoras — Sub-11 a Sub-17',
  resumo:'Dashboard mensal a partir do Diário de Atividades.',
- onde:[C(PASTAS.form), C(PASTAS.modelos), C(PASTAS.saidas)],
- passos:['Usar as respostas do mês salvas em <b>02 Formularios_Educadoras</b>.',
+ onde:[C(PASTAS.form, FORM_SUB), C(PASTAS.modelos), C(PASTAS.saidas)],
+ passos:['Usar a exportação mais recente do formulário Sub-11 ao Sub-17, filtrando o mês.',
    'Seguir o modelo de referência em <b>07 Modelos</b> (dashboards de jan–abr).',
    'Salvar o dashboard do mês em <b>06 Saidas</b>.']},
-{id:'p07', fase:2, t:'prog', nome:'Dashboard da Categoria de Base',
+{id:'p07', fase:2, t:'prog', nome:'Dashboard da Categoria de Base (Sub-15 e Sub-17)',
  resumo:'Dashboard separado para o formulário da Categoria de Base.',
- onde:[C(PASTAS.form), C(PASTAS.modelos), C(PASTAS.saidas)],
- passos:['Usar as respostas do formulário da Categoria de Base.',
+ onde:[C(PASTAS.form, FORM_BASE), C(PASTAS.modelos), C(PASTAS.saidas)],
+ passos:['Usar a exportação mais recente do formulário da Categoria de Base, filtrando o mês.',
    'Seguir o modelo em <b>07 Modelos</b>.',
    'Salvar em <b>06 Saidas</b>.']},
 {id:'p08', fase:2, t:'prog', nome:'Ler o Descritivo do mês',
@@ -398,23 +407,26 @@ const TAREFAS = [
    'Separar: casos que pedem ação, destaques para o sumário executivo e pontos para a página "Atividades em 2026".']},
 {id:'a02', fase:2, t:'auto', meses:[4,9,12], nome:'Autoavaliação — normalizar respostas',
  resumo:'Corrigir meses marcados errado e nomes de turma inconsistentes.',
- onde:[C(PASTAS.auto) + CONF],
+ onde:[C(PASTAS.auto, AUTO)],
  passos:['Padronizar o mês de cada resposta conforme a data de aplicação.',
    'Padronizar os nomes das turmas.',
    'Salvar a base normalizada em <b>03 Autoavaliacao</b>, sem alterar o arquivo original.']},
-{id:'f03', fase:2, t:'fin', nome:'Lançar o realizado na execução orçamentária',
- resumo:'Valores do mês por rubrica, em cada projeto.',
- onde:[C(PASTAS.fin) + CONF],
- passos:['Acompanhar os lançamentos do extrato nas planilhas de prestação de contas e execução orçamentária de cada projeto.',
-   'Conferir se o total do mês na planilha bate com o extrato.']},
-{id:'f04', fase:2, t:'fin', nome:'Analisar execução por rubrica',
- resumo:'Rubricas acima ou abaixo do esperado para o período.',
- onde:[C(PASTAS.fin) + CONF],
- passos:['Revisar o % executado de cada rubrica, por projeto.',
-   'Anotar rubricas acima do previsto e rubricas muito abaixo do esperado para o período (podem indicar lançamento faltante).']},
+{id:'f03', fase:2, t:'fin', nome:'Lançar o mês na planilha de prestação de contas',
+ resumo:'Aba LANÇAMENTOS, com o extrato de cada conta (Itaú, BB Academia e LIE).',
+ onde:[C(PASTAS.fin, PRESTACAO)],
+ passos:['Abrir a versão mais recente da planilha e salvar como nova versão do mês (ex.: <code>MeC_Prestacao_VF_09.xlsx</code>).',
+   'Na aba <b>LANÇAMENTOS</b>, para cada conta: 1 linha de SALDO ANTERIOR, os RENDIMENTOS, as RECEITAS e as DESPESAS do mês (uma linha por nota ou comprovante).',
+   'Ir à aba <b>SALDO REAL</b> e conferir se o saldo final de cada conta bate com o extrato do último dia do mês.'],
+ atencao:'Não lançar como receita: resgate automático da aplicação, saldo anterior nem transferência entre contas do projeto. Não lançar aplicação financeira como despesa. Esses erros causam dupla contagem.'},
+{id:'f04', fase:2, t:'fin', nome:'Analisar execução por categoria',
+ resumo:'Categorias acima ou abaixo do orçado, por conta.',
+ onde:[C(PASTAS.fin, PRESTACAO)],
+ passos:['Abrir a aba <b>CATEGORIAS & ORÇAMENTO</b> e revisar o % executado de cada categoria em cada conta.',
+   'Anotar categorias acima do orçado e categorias muito abaixo do esperado para o período (podem indicar lançamento faltante).',
+   'Usar a aba <b>PAINEL MENSAL</b> para conferir se algum mês ficou sem movimento em alguma conta.']},
 {id:'f05', fase:2, t:'fin', nome:'Dupla checagem e envio à consultoria financeira',
  resumo:'Conferência final antes de encaminhar à consultoria no cronograma combinado.',
- onde:[C(PASTAS.fin) + CONF],
+ onde:[C(PASTAS.fin, PRESTACAO)],
  passos:['Revisar lançamentos, comprovantes e planilhas de cada projeto.',
    'Encaminhar a documentação à consultoria financeira dentro do cronograma.']},
 
@@ -436,7 +448,7 @@ const TAREFAS = [
    'Compartilhar em reunião rápida ou mensagem, falando em percentuais e tendências.']},
 {id:'a03', fase:3, t:'auto', meses:[4,9,12], nome:'Autoavaliação — análise por turma',
  resumo:'Os 6 indicadores por turma: IBP, IPF, IDES, IES, IEF e IBI.',
- onde:[C(PASTAS.auto), C(PASTAS.saidas)],
+ onde:[C(PASTAS.auto, AUTO), C(PASTAS.saidas)],
  passos:['Calcular os 6 indicadores por turma a partir da base normalizada.',
    'Comparar com a aplicação anterior do ano.',
    'Salvar a análise em <b>06 Saidas</b> (versão pública só com agregados).']},
@@ -498,7 +510,7 @@ const TAREFAS = [
    'Revisar e publicar no GitHub.']},
 {id:'f09', fase:4, t:'fin', nome:'Consolidar o relatório financeiro mensal',
  resumo:'Realizado × previsto por projeto, com as justificativas.',
- onde:[C(PASTAS.fin) + CONF],
+ onde:[C(PASTAS.fin, PRESTACAO)],
  passos:['Montar o relatório de cada projeto com movimento no mês.',
    'Incluir as justificativas finalizadas dos desvios.',
    'Revisar antes de assinar.']},
@@ -546,7 +558,7 @@ function topo(){
 
 function calendario(){
   document.getElementById('legenda').innerHTML =
-    [['auto','Autoavaliação'],['imp','Relatório Impacto'],['projeto','Início de projeto'],['prazo','Prazo de financiador']]
+    [['auto','Autoavaliação e testes'],['imp','Relatório Impacto'],['projeto','Início de projeto'],['prazo','Prazo de financiador']]
     .map(([k,t]) => `<span><i class="pt" style="background:${COR[k]}"></i>${t}</span>`).join('');
   const eventos = MARCOS.map(m => ({...m}));
   PRAZOS.forEach(p => {
@@ -622,7 +634,7 @@ function matriz(){
   const fins = FINANCIADORES.filter(f => m >= f.desde);
   const simb = ['', '✓', '–'];
   document.getElementById('matriz').innerHTML =
-    `<thead><tr><th>${MESES[m-1]} ${ANO}</th>${fins.map(f => `<th class="fin-col">${f.nome}<small>${(f.desde2 && m>=f.desde2) ? f.proj2 : f.proj}</small></th>`).join('')}</tr></thead>
+    `<thead><tr><th>${MESES[m-1]} ${ANO}</th>${fins.map(f => `<th class="fin-col">${f.nome}<small>${(f.desde2 && m>=f.desde2) ? f.proj2 : f.proj}</small><small>conta ${f.conta}</small></th>`).join('')}</tr></thead>
      <tbody>${ITENS_FIN.map((item,i) => `<tr><td>${item}</td>${fins.map(f => {
        const k = f.id + '_' + i, s = est[k] || 0;
        return `<td class="c"><button type="button" class="cel" data-k="${k}" data-s="${s}" aria-label="${item}, ${f.nome}">${simb[s]}</button></td>`;
