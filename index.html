@@ -634,7 +634,8 @@ function render() {
           '<div class="year-line"></div>' +
           '<span class="year-count">' + yCount + '</span>' +
         '</div>' +
-makeTurmasSection(yFiles, yr, globalIdx) +
+makeMesesSection(yr) +
+           makeTurmasSection(yFiles, yr, globalIdx) +
            makeFotosSection(yr) +
            makeCol(yFiles, "op", yr, globalIdx + turmaCount) +
            makeCol(yFiles, "pc", yr, globalIdx + turmaCount + opCount) +
@@ -670,8 +671,19 @@ function makeFotosSection(yearKey) {
 }
 
 
-/* Lista hardcoded dos arquivos do repositório.
-   Adicione novos arquivos aqui quando subir ao GitHub. */
+/* ─────────────────────────────────────────────
+   LEITURA AUTOMÁTICA DO REPOSITÓRIO
+   Qualquer .html (ou .pdf) que você subir aparece sozinho.
+   - Arquivos na raiz: seções por tipo (como antes)
+   - Arquivos dentro de pastas de mês (ex.: "SET 26"): seção "Fechamentos mensais"
+───────────────────────────────────────────── */
+var BRANCH = "main";
+var TREE_API = "https://api.github.com/repos/" + REPO + "/git/trees/" + BRANCH + "?recursive=1";
+
+/* Arquivos que NÃO devem aparecer na página (nomes exatos, com pasta se houver) */
+var IGNORAR = ["index.html", "central.html", "fotos.html", "404.html"];
+
+/* Lista de reserva: usada só se o GitHub não responder (limite de acessos). */
 var REPO_FILES = [
   "Atividades em 2025.html",
   "Atividades em 2026.html",
@@ -690,17 +702,95 @@ var REPO_FILES = [
   "Sub17 T2.html"
 ];
 
-function load() {
-  allFiles = REPO_FILES
-    .map(function(name){ return { name: name }; })
-    .sort(function(a,b){ return a.name.localeCompare(b.name); });
+var MESES_ABR = ["JAN","FEV","MAR","ABR","MAI","JUN","JUL","AGO","SET","OUT","NOV","DEZ"];
+var MESES_NOME = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+var monthFiles = [];
 
-  if (!allFiles.length) {
-    document.getElementById("main").innerHTML =
-      '<div class="loading-block">Nenhum arquivo .html encontrado.</div>';
-    return;
-  }
+/* "JUNHO 26", "SET 26", "Março 2026" → {m:6, y:"2026"} */
+function lerPastaMes(pasta) {
+  var s = pasta.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+  var m = -1;
+  for (var i = 0; i < 12; i++) { if (s.indexOf(MESES_ABR[i]) === 0) { m = i + 1; break; } }
+  if (m < 0) return null;
+  var ano = (s.match(/(\d{2,4})\s*$/) || [])[1];
+  if (!ano) return null;
+  if (ano.length === 2) ano = "20" + ano;
+  return { m: m, y: ano };
+}
+
+function urlDe(path) {
+  return BASE + path.split("/").map(encodeURIComponent).join("/");
+}
+
+function usarLista(paths) {
+  var raiz = [], meses = [];
+  paths.forEach(function(p){
+    if (!/\.(html|pdf)$/i.test(p)) return;
+    if (IGNORAR.indexOf(p) >= 0) return;
+    var partes = p.split("/");
+    if (partes.length === 1) {
+      if (/\.html$/i.test(p)) raiz.push({ name: p });
+    } else if (partes.length === 2) {
+      var mes = lerPastaMes(partes[0]);
+      if (mes) meses.push({ name: partes[1], path: p, pasta: partes[0], m: mes.m, y: mes.y });
+    }
+  });
+  allFiles = raiz.sort(function(a,b){ return a.name.localeCompare(b.name); });
+  monthFiles = meses.sort(function(a,b){ return (b.y + pad(b.m)).localeCompare(a.y + pad(a.m)) || a.name.localeCompare(b.name); });
   render();
+}
+function pad(n){ return (n < 10 ? "0" : "") + n; }
+
+function load() {
+  var CACHE = "mec_publicacoes_tree";
+  try {
+    var c = JSON.parse(sessionStorage.getItem(CACHE) || "null");
+    if (c && Date.now() - c.t < 5 * 60 * 1000) { usarLista(c.paths); return; }
+  } catch (e) {}
+  fetch(TREE_API)
+    .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(d){
+      var paths = (d.tree || []).filter(function(x){ return x.type === "blob"; }).map(function(x){ return x.path; });
+      try { sessionStorage.setItem(CACHE, JSON.stringify({ t: Date.now(), paths: paths })); } catch (e) {}
+      usarLista(paths);
+    })
+    .catch(function(){ usarLista(REPO_FILES); });
+}
+
+/* Seção "Fechamentos mensais" (arquivos dentro das pastas de mês) */
+function makeMesesSection(yearKey) {
+  var lq = q.toLowerCase();
+  var files = monthFiles.filter(function(f){
+    return f.y === yearKey && (!lq || f.name.toLowerCase().indexOf(lq) >= 0 || f.pasta.toLowerCase().indexOf(lq) >= 0);
+  });
+  if (!files.length) return "";
+  var grupos = [];
+  files.forEach(function(f){
+    var g = grupos[grupos.length - 1];
+    if (!g || g.m !== f.m) { g = { m: f.m, itens: [] }; grupos.push(g); }
+    g.itens.push(f);
+  });
+  return (
+    '<div class="turmas-section">' +
+      '<div class="turmas-header">' +
+        '<span class="col-title">Fechamentos mensais</span>' +
+        '<span class="col-desc">' + grupos.length + (grupos.length !== 1 ? ' meses' : ' mês') + '</span>' +
+      '</div>' +
+      grupos.map(function(g){
+        return '<div class="col-desc" style="margin:1rem 0 .5rem;padding:0 1.25rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase">' +
+                 MESES_NOME[g.m - 1] + ' ' + yearKey + '</div>' +
+               '<div class="turmas-grid">' +
+                 g.itens.map(function(f, i){
+                   var info = classify(f.name);
+                   return '<a class="chip" href="' + urlDe(f.path) + '" style="--chip-accent:' + info.accent + ';animation-delay:' + (i * 0.045) + 's">' +
+                            '<div class="chip-cat">' + (/\.pdf$/i.test(f.name) ? 'PDF' : info.cat) + '</div>' +
+                            '<div class="chip-label">' + prettify(f.name.replace(/\.pdf$/i, "")) + '</div>' +
+                          '</a>';
+                 }).join("") +
+               '</div>';
+      }).join("") +
+    '</div>'
+  );
 }
 
 /* ─────────────────────────────────────────────
