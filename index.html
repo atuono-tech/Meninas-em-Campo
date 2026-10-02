@@ -580,6 +580,7 @@ function isTurma(name, yearKey) {
 }
 
 function makeTurmasSection(files, yearKey, idx0) {
+  return ""; /* seção removida: continha nomes das alunas */
   var turmas = files.filter(function(f){ return isTurma(f.name, yearKey); });
   if (!turmas.length) return "";
 
@@ -649,7 +650,6 @@ makeMesesSection(yr) +
       '<div class="legend-item"><div class="legend-dot" style="background:#f3ce02"></div>Prestação de Contas / LIE</div>' +
       '<div class="legend-item"><div class="legend-dot" style="background:#f44c06"></div>Relatório de Impacto</div>' +
       '<div class="legend-item"><div class="legend-dot" style="background:#c084fc"></div>Atividades</div>' +
-      '<div class="legend-item"><div class="legend-dot" style="background:#42ce02"></div>Dashboard de Turma</div>' +
     '</div>';
 
   document.getElementById("main").innerHTML = html;
@@ -690,16 +690,7 @@ var REPO_FILES = [
   "Impacto em 2025.html",
   "Lei de Incentivo ao Esporte _Ciclo 2.html",
   "Lei de Incentivo ao Esporte _Ciclo1.html",
-  "Memoria_do_Mes_2026.html",
-  "Primeiro Tempo.html",
-  "Sub11.html",
-  "Sub13 M.html",
-  "Sub13 T.html",
-  "Sub15 T.html",
-  "Sub15 T2.html",
-  "Sub17 M.html",
-  "Sub17 T.html",
-  "Sub17 T2.html"
+  "Memoria_do_Mes_2026.html"
 ];
 
 var MESES_ABR = ["JAN","FEV","MAR","ABR","MAI","JUN","JUL","AGO","SET","OUT","NOV","DEZ"];
