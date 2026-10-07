@@ -188,6 +188,26 @@ header{
   color:var(--branco);line-height:1.1;
 }
 
+/* ── FECHAMENTOS MENSAIS: meses lado a lado ── */
+.meses-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:rgba(255,255,255,.04);
+}
+@media(max-width:900px){.meses-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:640px){.meses-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.meses-grid{grid-template-columns:1fr;}}
+.mes-card{background:rgba(255,255,255,.02);display:flex;flex-direction:column;min-width:0}
+.mes-nome{
+  font-family:"Pressio","Arial Narrow",Arial,sans-serif;
+  font-size:1.17rem;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(238,238,238,.75);padding:.85rem 1.25rem .35rem;
+}
+.mes-card .chip{min-height:72px;padding:.6rem 1.25rem 1rem;background:none}
+.mes-card .chip + .chip{border-top:1px solid rgba(255,255,255,.06)}
+.mes-card .chip-label{font-size:1.6rem}
+
 /* ── SEÇÃO FOTOS ── */
 .fotos-section{
   border:1px solid rgba(255,255,255,.07);
@@ -767,10 +787,10 @@ function makeMesesSection(yearKey) {
         '<span class="col-title">Fechamentos mensais</span>' +
         '<span class="col-desc">' + grupos.length + (grupos.length !== 1 ? ' meses' : ' mês') + '</span>' +
       '</div>' +
+      '<div class="meses-grid">' +
       grupos.map(function(g){
-        return '<div class="col-desc" style="margin:1rem 0 .5rem;padding:0 1.25rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase">' +
-                 MESES_NOME[g.m - 1] + ' ' + yearKey + '</div>' +
-               '<div class="turmas-grid">' +
+        return '<div class="mes-card">' +
+                 '<div class="mes-nome">' + MESES_NOME[g.m - 1] + ' ' + yearKey + '</div>' +
                  g.itens.map(function(f, i){
                    var info = classify(f.name);
                    return '<a class="chip" href="' + urlDe(f.path) + '" style="--chip-accent:' + info.accent + ';animation-delay:' + (i * 0.045) + 's">' +
@@ -780,6 +800,7 @@ function makeMesesSection(yearKey) {
                  }).join("") +
                '</div>';
       }).join("") +
+      '</div>' +
     '</div>'
   );
 }
