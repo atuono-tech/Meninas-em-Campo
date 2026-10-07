@@ -163,6 +163,23 @@ a.link:hover{background:var(--azul-claro)}
 
 footer{background:var(--azul);color:rgba(255,255,255,.8);font-size:13.5px;padding:24px 20px calc(24px + env(safe-area-inset-bottom,0px));text-align:center}
 footer a{color:#fff}
+/* ---------- Mapa do fechamento ---------- */
+.mapa{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:10px;align-items:stretch;margin-top:16px}
+.etapa{background:var(--papel);border:1px solid var(--linha);border-top:6px solid var(--c);border-radius:12px;padding:16px 16px 12px;position:relative;min-width:0}
+.etapa.e1{--c:var(--azul);--cc:var(--azul-claro)} .etapa.e2{--c:var(--roxo);--cc:var(--roxo-claro)}
+.etapa.e3{--c:var(--verde);--cc:var(--verde-claro)} .etapa.e4{--c:var(--laranja);--cc:var(--laranja-claro)}
+.etapa-n{font-family:var(--display);font-weight:900;font-size:44px;line-height:1;color:var(--c)}
+.etapa h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:22px;line-height:1.05;margin:4px 0 0}
+.etapa .quando{font-size:13px;color:var(--texto-2);margin:2px 0 10px}
+.etapa ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.etapa li{font-size:14px;line-height:1.35;padding:8px 10px;background:var(--cc);border-radius:8px}
+.etapa li.ciclo{background:transparent;border:1px dashed var(--c)}
+.etapa li em{font-style:normal;font-size:12px;color:var(--texto-2)}
+.pasta,.pasta-ex{display:block;margin-top:4px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--texto);background:#fff;border:1px solid var(--linha);border-radius:6px;padding:2px 6px;word-break:break-word}
+.pasta::before{content:'📁 '}
+.pasta-ex{display:inline;margin:0}
+.seta{align-self:center;font-size:28px;color:var(--texto-3);font-weight:700}
+@media (max-width:900px){.mapa{grid-template-columns:1fr}.seta{transform:rotate(90deg);justify-self:center;line-height:1}}
 </style>
 </head>
 <body>
@@ -177,6 +194,7 @@ footer a{color:#fff}
 
 <nav class="menu" aria-label="Seções">
   <ul>
+    <li><a href="#mapa">Mapa do mês</a></li>
     <li><a href="#calendario">Calendário</a></li>
     <li><a href="#roteiro">Roteiro do mês</a></li>
     <li><a href="#financiadores">Por financiador</a></li>
@@ -185,6 +203,61 @@ footer a{color:#fff}
 </nav>
 
 <main>
+
+<!-- ============ 0. MAPA DO FECHAMENTO ============ -->
+<section id="mapa">
+  <h2>Mapa do fechamento</h2>
+  <p class="intro">O mês inteiro numa tela: o que você coloca em cada pasta, o que o Claude faz e onde ficam os resultados. Os nomes em <span class="pasta-ex">caixinha</span> são pastas dentro de <b>000 DADOS_Central MEC</b>.</p>
+  <div class="mapa">
+    <div class="etapa e1">
+      <div class="etapa-n">1</div>
+      <h3>Você coloca</h3><p class="quando">dias 1 a 5</p>
+      <ul>
+        <li><b>Presença do TOTVS</b><span class="pasta">01 Presenca_TOTVS</span></li>
+        <li><b>2 formulários das educadoras</b><span class="pasta">02 Formularios_Educadoras</span></li>
+        <li><b>Descritivo (Word) com o mês</b><span class="pasta">04 Descritivo</span></li>
+        <li><b>Prestação de contas</b><span class="pasta">05 Financeiro</span></li>
+        <li class="ciclo"><b>Autoavaliação</b> <em>abr · set · dez</em><span class="pasta">03 Autoavaliacao</span></li>
+      </ul>
+    </div>
+    <div class="seta" aria-hidden="true">→</div>
+    <div class="etapa e2">
+      <div class="etapa-n">2</div>
+      <h3>Você pede ao Claude</h3><p class="quando">“fechamento de [mês]”</p>
+      <ul>
+        <li>Confere se falta algum arquivo</li>
+        <li><b>Te mostra os cards de atividades</b> para aprovar</li>
+        <li>Gera o fechamento, as devolutivas e a planilha de saídas</li>
+        <li>Verifica que não há nomes nas versões públicas</li>
+        <li class="ciclo">Lança a autoavaliação no Painel Longitudinal <em>abr · set · dez</em></li>
+      </ul>
+    </div>
+    <div class="seta" aria-hidden="true">→</div>
+    <div class="etapa e3">
+      <div class="etapa-n">3</div>
+      <h3>Os resultados ficam</h3><p class="quando">prontos no mesmo dia</p>
+      <ul>
+        <li><b>Para o GitHub</b><span class="pasta">07 Modelos / Paginas GitHub / subir_github</span></li>
+        <li><b>Devolutivas + página de envio</b><span class="pasta">06 Saidas / Fechamento MM-2026 / turmas</span></li>
+        <li><b>Fechamento interno + saídas</b><span class="pasta">06 Saidas / Fechamento MM-2026 / interno</span></li>
+        <li><b>Atividades em 2026</b><span class="pasta">04 Descritivo</span></li>
+        <li class="ciclo"><b>Painel Longitudinal</b><span class="pasta">03 Autoavaliacao</span></li>
+      </ul>
+    </div>
+    <div class="seta" aria-hidden="true">→</div>
+    <div class="etapa e4">
+      <div class="etapa-n">4</div>
+      <h3>Você distribui</h3><p class="quando">até o fim do mês</p>
+      <ul>
+        <li><b>Sobe no GitHub</b> tudo o que está em <i>subir_github</i> e depois esvazia a pasta</li>
+        <li><b>Envia as 10 devolutivas</b> pela página de envio (Outlook)</li>
+        <li><b>Reunião de casos</b> com o fechamento interno; coordenação preenche os motivos das saídas</li>
+        <li><b>Avisa o Claude</b> quando a prestação estiver pronta (atualiza o SROI)</li>
+      </ul>
+    </div>
+  </div>
+  <p class="nota">🔒 <b>interno</b> e <b>turmas</b> têm nomes de meninas: só OneDrive e e-mail institucional. Para o site, só o que está em <i>subir_github</i>. O passo a passo detalhado de cada item está no <a href="#roteiro">Roteiro do mês</a>.</p>
+</section>
 
 <!-- ============ 1. CALENDÁRIO ============ -->
 <section id="calendario">
@@ -257,7 +330,7 @@ footer a{color:#fff}
    CONFIG — edite aqui
    ===================================================================== */
 const ANO = 2026;
-const RAIZ = '000 Dados_Central MEC';
+const RAIZ = '000 DADOS_Central MEC';
 const PASTAS = {
   presenca:'01 Presenca_TOTVS', form:'02 Formularios_Educadoras', auto:'03 Autoavaliacao',
   desc:'04 Descritivo', fin:'05 Financeiro', saidas:'06 Saidas', modelos:'07 Modelos'
@@ -308,7 +381,7 @@ const ITENS_FIN = [
 const LINKS = [
   {nome:'Publicações 2026', desc:'Página inicial com os fechamentos mensais e demais publicações — atualiza sozinha.', url:'https://atuono-tech.github.io/Meninas-em-Campo/'},
   {nome:'Atividades em 2026', desc:'Página atualizada todo mês a partir do descritivo.', url:'https://atuono-tech.github.io/Meninas-em-Campo/Atividades%20em%202026.html'},
-  {nome:'Produtos 2025', desc:'Relatório de Impacto 2025, Dashboard LIE Ciclo 1 e Livro de Atividades 2025.', url:'https://atuono-tech.github.io/mec_dashboards_2025/'},
+  {nome:'Produtos 2025', desc:'Relatório de Impacto 2025, Dashboard LIE Ciclo 1 e Livro de Atividades 2025.', url:'https://atuono-tech.github.io/Meninas-em-Campo/'},
   {nome:'Repositório no GitHub', desc:'Onde os arquivos mensais são publicados.', url:'https://github.com/atuono-tech/Meninas-em-Campo'},
   {nome:'Site do programa', desc:'meninasemcampo.org.br', url:'https://meninasemcampo.org.br'},
 ];
@@ -317,8 +390,10 @@ const LINKS = [
    ROTEIRO — tarefas (fase 1–4; trilha prog | fin | auto | imp; meses = só nesses meses)
    ===================================================================== */
 // Nomes das exportações do Microsoft Forms (N = total de respostas, muda a cada exportação)
-const FORM_SUB  = 'Diário de Atividades _ MEC Sub-11 ao Sub-17(1-N).xlsx';
-const FORM_BASE = 'Diário de Atividades e Registro Pós-Treino - Categoria de Base (Sub-15 e Sub-17) (1-N).xlsx';
+const TOTVS = '2026_lista de presenca geral.xlsx';
+const DESCRITIVO = '2026 DESCRITIVO COMPLETO.docx'; // Word único do ano, a equipe acrescenta o mês
+const FORM_SUB  = 'Diário de Atividades – MEC Sub-11 ao Sub-17.xlsx'; // nome pode variar; vale a exportação mais recente
+const FORM_BASE = 'Diário de Atividades e Registro Pós-Treino - Categoria de Base (Sub-15 e Sub-17).xlsx';
 const AUTO = 'Auto Avaliação 2026.xlsx'; // arquivo único do ano (abril, setembro e dezembro)
 const PRESTACAO = 'MeC_Prestacao_VF_MM.xlsx'; // planilha única; MM = mês da última atualização (ex.: VF_08)
 const C = (pasta, arq) => `<code>${RAIZ} / ${pasta}${arq ? ' / ' + arq : ''}</code>`;
@@ -327,42 +402,37 @@ const CONF = '<span class="confirmar">a confirmar</span>';
 const TAREFAS = [
 /* ---------- FASE 1 — COLETA ---------- */
 {id:'p01', fase:1, t:'prog', nome:'Exportar a lista de presença do TOTVS',
- resumo:'Baixar a lista de presença geral atualizada com o mês anterior.',
- onde:[C(PASTAS.presenca,'2026_lista_de_presenca_geral.xlsx')],
- passos:['Exportar do TOTVS a lista de presença geral de 2026, incluindo o mês anterior completo.',
-   'Salvar em <b>01 Presenca_TOTVS</b> com o nome <code>2026_lista_de_presenca_geral.xlsx</code>.',
-   'Conferir se todas as turmas e todos os dias de treino do mês aparecem no arquivo.'],
- atencao:'Sem a presença do mês, a Fase 2 não começa. Se o TOTVS estiver indisponível, avisar a coordenação e registrar o atraso.'},
+ resumo:'Lista de presença geral atualizada com o mês anterior completo.',
+ onde:[C(PASTAS.presenca, TOTVS)],
+ passos:['Exportar do TOTVS a lista de presença geral de 2026, já com o mês anterior completo.',
+   'Salvar em <b>01 Presenca_TOTVS</b> substituindo o arquivo anterior (mesmo nome).'],
+ atencao:'Arquivo único do ano, uma aba por mês. Se a aba do mês estiver vazia, o fechamento para e avisa: é só exportar de novo.'},
 {id:'p02', fase:1, t:'prog', nome:'Formulário das educadoras — Sub-11 a Sub-17',
- resumo:'Garantir que o Diário de Atividades do mês está completo.',
+ resumo:'Diário de Atividades do mês completo e exportado.',
  onde:[C(PASTAS.form, FORM_SUB)],
- passos:['Abrir as respostas do formulário Diário de Atividades | MEC Sub-11 ao Sub-17.',
-   'Conferir quais turmas e datas do mês ainda estão sem registro.',
-   'Mandar mensagem às educadoras com pendência: prazo dia 5.',
-   'Exportar as respostas para Excel e salvar em <b>02 Formularios_Educadoras</b>, apagando a exportação anterior.'],
- atencao:'O número entre parênteses muda a cada exportação (total de respostas). Manter só o arquivo mais recente na pasta. Se no dia 5 ainda faltar resposta, levar à coordenação. Não fechar o mês com turmas sem registro sem anotar a lacuna.'},
+ passos:['Conferir nas respostas quais turmas e datas do mês ainda estão sem registro e cobrar as educadoras (prazo: dia 5).',
+   'Exportar para Excel <b>depois do último treino do mês</b> e salvar em <b>02 Formularios_Educadoras</b>, apagando a exportação anterior.'],
+ atencao:'Exportação feita antes do fim do mês deixa treinos de fora. O nome do arquivo pode variar: o fechamento sempre usa o mais recente.'},
 {id:'p03', fase:1, t:'prog', nome:'Formulário das educadoras — Categoria de Base (Sub-15 e Sub-17)',
  resumo:'Diário de Atividades e Registro Pós-Treino da Categoria de Base.',
  onde:[C(PASTAS.form, FORM_BASE)],
- passos:['Abrir as respostas do formulário Diário de Atividades e Registro Pós-Treino — Categoria de Base (Sub-15 e Sub-17).',
-   'Conferir registros pendentes do mês.',
-   'Cobrar a equipe responsável com prazo dia 5.',
-   'Exportar para Excel e salvar em <b>02 Formularios_Educadoras</b>, apagando a exportação anterior deste formulário.'],
- atencao:'São equipes e formulários diferentes: os dados não se misturam e geram dashboards separados.'},
-{id:'p04', fase:1, t:'prog', nome:'Checar a seção do mês no Descritivo',
- resumo:'Verificar se todas as áreas escreveram sua parte do mês no descritivo acumulado.',
- onde:[C(PASTAS.desc,'2026_DESCRITIVO_COMPLETO.docx')],
- passos:['Abrir o <code>2026_DESCRITIVO_COMPLETO.docx</code> e ir até o título do mês anterior.',
-   'Conferir as partes das equipes esportiva, pedagógica, psicológica e de assistência social.',
-   'Cobrar quem ainda não escreveu, com prazo dia 5.'],
- atencao:'O descritivo alimenta a página pública "Atividades em 2026". Pedir às equipes que não escrevam nomes nem casos individuais nele.'},
-{id:'a01', fase:1, t:'auto', meses:[4,9,12], nome:'Autoavaliação — aplicar e coletar',
+ passos:['Conferir registros pendentes do mês e cobrar a equipe responsável (prazo: dia 5).',
+   'Exportar para Excel depois do último treino do mês e salvar em <b>02 Formularios_Educadoras</b>, apagando a exportação anterior deste formulário.'],
+ atencao:'São equipes e formulários diferentes: os dados aparecem separados no fechamento.'},
+{id:'p04', fase:1, t:'prog', nome:'Descritivo do mês preenchido',
+ resumo:'Todas as áreas escreveram sua parte do mês no Word único do ano.',
+ onde:[C(PASTAS.desc, DESCRITIVO)],
+ passos:['Abrir o Word e conferir se o mês começa com o título no padrão <code>Setembro 01 a 30</code>.',
+   'Cada atividade deve estar como <b>Título 3</b> (ex.: <code>21/09 – Visita ao CT do Red Bull Bragantino</code>), com o texto logo abaixo.',
+   'Conferir as partes das equipes esportiva, pedagógica, psicológica e de assistência social; cobrar quem falta (prazo: dia 5).',
+   'Salvar em <b>04 Descritivo</b> substituindo a versão anterior (mesmo nome).'],
+ atencao:'O Descritivo vira a página pública "Atividades em 2026": nada de nomes de atletas nem casos individuais. Atividades de outro mês vão no título daquele mês.'},
+{id:'a01', fase:1, t:'auto', meses:[4,9,12], nome:'Autoavaliação — coletar e exportar',
  resumo:'Mês de autoavaliação: garantir que as meninas responderam.',
  onde:[C(PASTAS.auto, AUTO)],
- passos:['Confirmar com as coordenações as datas de aplicação por turma.',
-   'Acompanhar a taxa de resposta por turma.',
-   'Exportar as respostas e salvar em <b>03 Autoavaliacao</b> como <code>Auto Avaliação 2026.xlsx</code>, substituindo a versão anterior.'],
- atencao:'É um arquivo único do ano: a exportação traz abril, setembro e dezembro juntos.'},
+ passos:['Confirmar com as coordenações as datas de aplicação por turma e acompanhar a taxa de resposta.',
+   'Quando todas as turmas responderem, exportar e salvar em <b>03 Autoavaliacao</b> como <code>Auto Avaliação 2026.xlsx</code>, substituindo a anterior.'],
+ atencao:'Arquivo único do ano: a exportação traz todos os ciclos juntos. Avisar o Claude quando o ciclo estiver fechado (sem mais respostas).'},
 {id:'f01', fase:1, t:'fin', nome:'Receber extrato bancário, encargos e tributos',
  resumo:'Extrato do Financeiro da Mantenedora e informações do RH, conferidos com Compras/ADM.',
  onde:[C(PASTAS.fin) + CONF],
@@ -379,44 +449,35 @@ const TAREFAS = [
    'Listar o que falta e pedir a Compras/ADM antes da Fase 2.'],
  atencao:'Na LIE, despesa sem orçamento, pedido e nota fiscal não entra na prestação de contas.'},
 
+
 /* ---------- FASE 2 — PROCESSAMENTO ---------- */
-{id:'p05', fase:2, t:'prog', nome:'Relatório de frequência e evasão por turma',
- resumo:'Frequência por turma e alerta abaixo de 75%.',
- onde:[C(PASTAS.presenca,'2026_lista_de_presenca_geral.xlsx'), C(PASTAS.saidas)],
- passos:['Gerar o relatório a partir da lista de presença mais recente.',
-   'Analisar a frequência por turma e identificar quem está abaixo de 75% ou com outros sinais de risco de evasão.',
-   'Verificar se a menina também estava abaixo de 75% no mês anterior.',
-   'Salvar a versão interna (com nomes) e a versão pública (só agregados) em <b>06 Saidas</b>.'],
- atencao:'Somente a versão agregada vai para o GitHub.'},
-{id:'p06', fase:2, t:'prog', nome:'Dashboard das educadoras — Sub-11 a Sub-17',
- resumo:'Dashboard mensal a partir do Diário de Atividades.',
- onde:[C(PASTAS.form, FORM_SUB), C(PASTAS.modelos), C(PASTAS.saidas)],
- passos:['Usar a exportação mais recente do formulário Sub-11 ao Sub-17, filtrando o mês.',
-   'Seguir o modelo de referência em <b>07 Modelos</b> (dashboards de jan–abr).',
-   'Salvar o dashboard do mês em <b>06 Saidas</b>.']},
-{id:'p07', fase:2, t:'prog', nome:'Dashboard da Categoria de Base (Sub-15 e Sub-17)',
- resumo:'Dashboard separado para o formulário da Categoria de Base.',
- onde:[C(PASTAS.form, FORM_BASE), C(PASTAS.modelos), C(PASTAS.saidas)],
- passos:['Usar a exportação mais recente do formulário da Categoria de Base, filtrando o mês.',
-   'Seguir o modelo em <b>07 Modelos</b>.',
-   'Salvar em <b>06 Saidas</b>.']},
-{id:'p08', fase:2, t:'prog', nome:'Ler o Descritivo do mês',
- resumo:'Leitura analítica dos relatos das equipes.',
- onde:[C(PASTAS.desc,'2026_DESCRITIVO_COMPLETO.docx')],
- passos:['Ler a seção do mês, área por área.',
-   'Separar: casos que pedem ação, destaques para o sumário executivo e pontos para a página "Atividades em 2026".']},
-{id:'a02', fase:2, t:'auto', meses:[4,9,12], nome:'Autoavaliação — normalizar respostas',
- resumo:'Corrigir meses marcados errado e nomes de turma inconsistentes.',
- onde:[C(PASTAS.auto, AUTO)],
- passos:['Padronizar o mês de cada resposta conforme a data de aplicação.',
-   'Padronizar os nomes das turmas.',
-   'Salvar a base normalizada em <b>03 Autoavaliacao</b>, sem alterar o arquivo original.']},
+{id:'p05', fase:2, t:'prog', nome:'Pedir o fechamento ao Claude',
+ resumo:'Escrever "fechamento de [mês]" no Claude (projeto MEC_Gestão), com a pasta Central MEC conectada.',
+ onde:[C(PASTAS.saidas, 'Fechamento MM-2026')],
+ passos:['O Claude confere se as entradas da Fase 1 estão completas e avisa o que falta.',
+   'Lê a seção do mês no Descritivo e monta os cards de atividades (vai te mostrar para aprovar — tarefa seguinte).',
+   'Gera em <b>06 Saidas / Fechamento MM-2026</b>: <code>publico/</code> (GitHub), <code>interno/</code> (fechamento com nomes e planilha de saídas) e <code>turmas/</code> (10 devolutivas + página de envio).',
+   'Varre as versões públicas procurando nomes de atletas e copia o que vai para o GitHub em <b>07 Modelos / Paginas GitHub / subir_github</b>.'],
+ atencao:'Frequência oficial = (P + AJ) ÷ total; alerta individual abaixo de 75%; meta LIE 70%. Primeiro Tempo (BASF) aparece separado.'},
+{id:'p06', fase:2, t:'prog', nome:'Aprovar os cards de "Atividades em 2026"',
+ resumo:'Revisar no chat a lista de atividades do mês antes de ir para a página pública.',
+ onde:[C(PASTAS.desc, 'Atividades em 2026.html')],
+ passos:['Conferir título, data, indicadores (IBP, IPF, IDES, IES, IEF, IBI) e o destaque principal do mês.',
+   'Responder "pode publicar" ou pedir ajustes. O Claude inclui a aba do mês na página e guarda a versão anterior em <code>04 Descritivo / _versoes</code>.'],
+ atencao:'Os Destaques do fechamento saem desses cards. Sem esta etapa, o fechamento sai sem Destaques.'},
+{id:'a02', fase:2, t:'auto', meses:[4,9,12], nome:'Autoavaliação → Painel Longitudinal',
+ resumo:'Pedir ao Claude para lançar o ciclo no MEC_Painel_Longitudinal.',
+ onde:[C(PASTAS.auto, 'MEC_Painel_Longitudinal_vN.xlsx')],
+ passos:['O Claude acrescenta só as respostas novas (sem nomes), no método fixo 1–5, e confere as antigas.',
+   'Atualiza as metas com os números do fechamento (frequência, ativas, entradas e saídas) e salva uma nova versão (vN+1), mantendo a anterior.',
+   'Confirmar se o ciclo fechou, para tirar a marcação "parcial".']},
 {id:'f03', fase:2, t:'fin', nome:'Lançar o mês na planilha de prestação de contas',
  resumo:'Aba LANÇAMENTOS, com o extrato de cada conta (Itaú, BB Academia e LIE).',
  onde:[C(PASTAS.fin, PRESTACAO)],
  passos:['Abrir a versão mais recente da planilha e salvar como nova versão do mês (ex.: <code>MeC_Prestacao_VF_09.xlsx</code>).',
    'Na aba <b>LANÇAMENTOS</b>, para cada conta: 1 linha de SALDO ANTERIOR, os RENDIMENTOS, as RECEITAS e as DESPESAS do mês (uma linha por nota ou comprovante).',
-   'Ir à aba <b>SALDO REAL</b> e conferir se o saldo final de cada conta bate com o extrato do último dia do mês.'],
+   'Ir à aba <b>SALDO REAL</b> e conferir se o saldo final de cada conta bate com o extrato do último dia do mês.',
+   'Avisar o Claude: ele atualiza o investimento LIE (conta 10 – LIE, BB) no SROI do Painel Longitudinal.'],
  atencao:'Não lançar como receita: resgate automático da aplicação, saldo anterior nem transferência entre contas do projeto. Não lançar aplicação financeira como despesa. Esses erros causam dupla contagem.'},
 {id:'f04', fase:2, t:'fin', nome:'Analisar execução por categoria',
  resumo:'Categorias acima ou abaixo do orçado, por conta.',
@@ -430,28 +491,30 @@ const TAREFAS = [
  passos:['Revisar lançamentos, comprovantes e planilhas de cada projeto.',
    'Encaminhar a documentação à consultoria financeira dentro do cronograma.']},
 
+
 /* ---------- FASE 3 — ANÁLISE E AÇÃO ---------- */
-{id:'p09', fase:3, t:'prog', nome:'Cruzar frequência, indicadores e relatos',
- resumo:'Transformar os dados do mês em casos concretos para acompanhamento.',
- passos:['Cruzar a lista de frequência abaixo de 75% com os indicadores e com o Descritivo.',
-   'Classificar cada caso: acompanhamento imediato ou monitorar no próximo mês.'],
- atencao:'Onde registrar essa classificação ainda está em decisão (ver Decisões pendentes). Nunca em arquivo público.'},
-{id:'p10', fase:3, t:'prog', nome:'Reunião de casos críticos com as coordenações',
- resumo:'Definir encaminhamentos com psicologia e assistência social.',
- passos:['Levar os casos de acompanhamento imediato para a reunião com as coordenadoras.',
-   'Definir o encaminhamento, a responsável e o prazo de cada caso.',
-   'Registrar as decisões em arquivo interno.'],
- atencao:'Tratar os casos só por canais internos do projeto. Não registrar decisões individuais no Descritivo, porque ele alimenta a página pública.'},
-{id:'p11', fase:3, t:'prog', nome:'Devolutiva à equipe',
- resumo:'Compartilhar o resultado do mês com educadoras e coordenações.',
- passos:['Montar um resumo simples: frequência geral, nº de alertas, destaques do mês.',
-   'Compartilhar em reunião rápida ou mensagem, falando em percentuais e tendências.']},
-{id:'a03', fase:3, t:'auto', meses:[4,9,12], nome:'Autoavaliação — análise por turma',
- resumo:'Os 6 indicadores por turma: IBP, IPF, IDES, IES, IEF e IBI.',
- onde:[C(PASTAS.auto, AUTO), C(PASTAS.saidas)],
- passos:['Calcular os 6 indicadores por turma a partir da base normalizada.',
-   'Comparar com a aplicação anterior do ano.',
-   'Salvar a análise em <b>06 Saidas</b> (versão pública só com agregados).']},
+{id:'p09', fase:3, t:'prog', nome:'Ler o fechamento interno',
+ resumo:'Pontos de pauta, turmas abaixo de 75% e lista de alertas individuais.',
+ onde:[C(PASTAS.saidas, 'Fechamento MM-2026 / interno')],
+ passos:['Abrir <code>Fechamento [Mês] 2026 - INTERNO.html</code>.',
+   'Separar os casos de acompanhamento imediato (abaixo de 75% em mais de um mês, saídas, sinais nos relatos) e os de monitorar.'],
+ atencao:'Arquivo com nomes: só OneDrive e e-mail institucional. Nunca no GitHub.'},
+{id:'p10', fase:3, t:'prog', nome:'Reunião de casos críticos e motivos das saídas',
+ resumo:'Encaminhamentos com psicologia e assistência social.',
+ onde:[C(PASTAS.saidas, 'Fechamento MM-2026 / interno / Saidas [Mês] 2026 - INTERNO.xlsx')],
+ passos:['Levar os casos à reunião com as coordenadoras e definir encaminhamento, responsável e prazo.',
+   'Coordenação/serviço social preenche a coluna MOTIVO na planilha de saídas.'],
+ atencao:'Saídas em bloco no mesmo dia costumam ser "Ajuste de cadastro", que não é evasão real.'},
+{id:'p11', fase:3, t:'prog', nome:'Enviar as devolutivas às educadoras',
+ resumo:'Cada educadora recebe a devolutiva da sua turma, com a coordenação em cópia.',
+ onde:[C(PASTAS.saidas, 'Fechamento MM-2026 / turmas / Envio das devolutivas - [Mês] 2026.html')],
+ passos:['Abrir a página de envio no computador.',
+   'Clicar em cada turma: o e-mail abre no Outlook já preenchido. Anexar a devolutiva da turma e enviar.']},
+{id:'a03', fase:3, t:'auto', meses:[4,9,12], nome:'Autoavaliação — leitura dos resultados',
+ resumo:'Os indicadores do ciclo comparados ao ciclo anterior e às metas LIE.',
+ onde:[C(PASTAS.auto, 'MEC_Painel_Longitudinal_vN.xlsx')],
+ passos:['Abrir as abas <b>4. Evolução Longitudinal</b> e <b>6. Metas LIE</b>.',
+   'Anotar indicadores abaixo de 4,0 e os que mais mudaram, para o sumário executivo e para a equipe.']},
 {id:'f06', fase:3, t:'fin', nome:'Tratar pendências da consultoria',
  resumo:'Corrigir o que a consultoria apontou.',
  onde:[C(PASTAS.fin) + CONF],
@@ -471,41 +534,32 @@ const TAREFAS = [
    'Conferir se o valor da nota fiscal bate com o comprovante e com o extrato.',
    'Enviar inconsistências a Compras/ADM antes do relatório.']},
 
+
 /* ---------- FASE 4 — SÍNTESE E ENTREGA ---------- */
 {id:'p12', fase:4, t:'prog', nome:'Sumário executivo do mês',
  resumo:'Uma página com os principais resultados e os 6 indicadores.',
  onde:[C(PASTAS.modelos) + CONF, C(PASTAS.saidas)],
- passos:['Partir do modelo em <b>07 Modelos</b>.',
-   'Preencher: frequência geral, meninas atendidas, nº de alertas, casos encaminhados.',
-   'Preencher IBP, IPF, IDES, IES, IEF e IBI.',
-   'Escrever até 3 destaques qualitativos.',
+ passos:['Partir do resumo que o Claude entrega no fechamento (frequência, ativas, alertas, evasão, treinos).',
+   'Incluir os casos encaminhados e até 3 destaques do mês.',
    'Salvar em <b>06 Saidas</b>.']},
-{id:'p13', fase:4, t:'prog', nome:'Publicar os produtos do mês no GitHub',
- resumo:'Frequência e evasão (agregada) e os dois dashboards na pasta do mês.',
- onde:['<code>github.com/atuono-tech/Meninas-em-Campo</code>'],
- passos:['Pegar em <b>06 Saidas</b> somente as versões públicas.',
-   'Revisar cada arquivo: nenhum nome, nenhum caso individual.',
-   'Subir na pasta do mês no repositório Meninas-em-Campo.',
-   'Abrir a página inicial e conferir se os arquivos novos aparecem na lista.'],
- atencao:'Dados de menores: na dúvida sobre algum dado, não publicar.'},
-{id:'p14', fase:4, t:'prog', nome:'Atualizar a página "Atividades em 2026"',
- resumo:'Acrescentar o mês a partir do Descritivo.',
- onde:[C(PASTAS.desc,'2026_DESCRITIVO_COMPLETO.docx')],
- passos:['Usar os pontos separados na leitura do Descritivo.',
-   'Acrescentar o mês na página "Atividades em 2026".',
-   'Revisar o texto: sem nomes nem situações individuais.',
-   'Publicar e conferir no navegador.']},
+{id:'p13', fase:4, t:'prog', nome:'Publicar no GitHub',
+ resumo:'Subir o fechamento público e a página de Atividades atualizada.',
+ onde:[C(PASTAS.modelos, 'Paginas GitHub / subir_github'), '<code>github.com/atuono-tech/Meninas-em-Campo</code>'],
+ passos:['Abrir a pasta <b>subir_github</b>: ela tem só o que vai para o site.',
+   '<code>[Mês] 26 / Fechamento [Mês] 2026.html</code> → subir na pasta do mês no repositório (ex.: <code>Set 26</code>).',
+   '<code>Atividades em 2026.html</code> → subir na raiz, substituindo a atual.',
+   'Abrir a página inicial e a de Atividades e conferir se o mês novo aparece.'],
+ atencao:'Somente arquivos da pasta subir_github. Os arquivos interno/ e turmas/ têm nomes de menores e nunca vão para o GitHub.'},
 {id:'p15', fase:4, t:'prog', nome:'Preparar o próximo mês',
  resumo:'Deixar tudo pronto para a coleta começar no dia 1.',
- onde:[C(PASTAS.desc,'2026_DESCRITIVO_COMPLETO.docx')],
- passos:['Acrescentar no Descritivo o título do próximo mês, com as seções das áreas.',
-   'Conferir se os dois formulários das educadoras continuam abertos.',
-   'Mandar lembrete à equipe: formulários e Descritivo até o dia 5.',
-   'Organizar e arquivar os documentos do mês.']},
+ onde:[C(PASTAS.desc, DESCRITIVO)],
+ passos:['Acrescentar no Descritivo o título do próximo mês (ex.: <code>Outubro 01 a 31</code>).',
+   'Conferir se os dois formulários das educadoras continuam abertos e mandar lembrete à equipe: formulários e Descritivo até o dia 5.',
+   'Esvaziar a pasta <b>subir_github</b> depois de publicar.']},
 {id:'i01', fase:4, t:'imp', meses:[12], nome:'Relatório Impacto 2026',
  resumo:'Relatório anual no modelo do "Impacto em 2025".',
  onde:[C(PASTAS.modelos), C(PASTAS.saidas)],
- passos:['Reunir frequência do ano, as três autoavaliações e as atividades de 2026.',
+ passos:['Reunir os fechamentos do ano, as três autoavaliações (Painel Longitudinal) e as atividades de 2026.',
    'Montar o relatório no modelo do "Impacto em 2025".',
    'Revisar e publicar no GitHub.']},
 {id:'f09', fase:4, t:'fin', nome:'Consolidar o relatório financeiro mensal',
@@ -523,7 +577,7 @@ const TAREFAS = [
  resumo:'Fechar o ciclo financeiro do mês.',
  onde:[C(PASTAS.fin) + CONF],
  passos:['Salvar o relatório assinado em PDF e o protocolo de envio em <b>05 Financeiro</b>.',
-   'Conferir a trilha por financiador: tudo marcado ou "não se aplica".']},
+   'Conferir a trilha por financiador: tudo marcado ou "não se aplica".']}
 ];
 
 const FASES = [
