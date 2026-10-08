@@ -134,6 +134,10 @@
   body{margin:0;background:#F6F4F1;padding:24px 16px}
   .mec{max-width:1120px;margin:0 auto}
   .kpi-grid.k4{grid-template-columns:repeat(4,1fr)}
+  .kpi-grid.k5{grid-template-columns:repeat(5,1fr)}
+  @media (max-width:800px){.kpi-grid.k5{grid-template-columns:repeat(2,1fr)}}
+  .meses{display:flex;align-items:flex-end;gap:10px;height:170px;padding-top:20px}.meses .m{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}.meses .m i{display:block;width:100%;max-width:56px;background:var(--mec-blue);border-radius:4px 4px 0 0}.meses .m b{font-size:11.5px;color:var(--color-text-primary);margin-bottom:4px}.meses .m span{font-size:11.5px;font-weight:700;color:var(--color-text-secondary);margin-top:6px;text-transform:uppercase}
+  .nota-exec{font-size:11.5px;color:var(--color-text-secondary);margin-top:10px}
   @media (max-width:700px){.kpi-grid.k4{grid-template-columns:repeat(2,1fr)}}
   .rubrica-row{display:grid;grid-template-columns:minmax(150px,42%) 1fr 70px;align-items:center;gap:10px;margin:7px 0;font-size:12.5px}
   .rubrica-label{color:var(--color-text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -162,18 +166,24 @@
     <div class="mec-divider"></div>
     <div class="mec-header-right">
       <div class="mec-title">Lei de Incentivo ao Esporte<br>Ciclo 2 — Execução Orçamentária</div>
-      <div class="mec-period">Vigência Abr 2026 – Mar 2027 · Referência Jun/2026</div>
+      <div class="mec-period">Vigência Fev 2026 – Mar 2027 · Referência Set/2026</div>
       <div class="mec-subtitle">Total aprovado R$ 2.473.094,92 · Filial 10 · Ano 2 · 2026–2027</div>
     </div>
   </div>
   <div class="yellow-bar"></div>
-  <div class="kpi-grid k4">
+  <div class="kpi-grid k5">
     <div class="kpi k-blue"><span class="kpi-lbl">Total aprovado LIE</span><span class="kpi-val">R$ 2,47M</span><span class="kpi-detail">Orçamento Ano 2</span></div>
     <div class="kpi k-yellow"><span class="kpi-lbl">Atividade-fim</span><span class="kpi-val">R$ 2,22M</span><span class="kpi-detail">89,9% do total</span></div>
     <div class="kpi k-green"><span class="kpi-lbl">Atividade-meio</span><span class="kpi-val">R$ 157,7K</span><span class="kpi-detail">7,1% · dentro do limite</span></div>
     <div class="kpi k-orange"><span class="kpi-lbl">Captação e elaboração</span><span class="kpi-val">R$ 100K</span><span class="kpi-detail">4,2% do total</span></div>
+    <div class="kpi k-purple"><span class="kpi-lbl">Executado fev–set</span><span class="kpi-val">R$ 1,08M</span><span class="kpi-detail">43,8% do aprovado</span></div>
   </div>
 
+  <div class="two-col">
+    <div class="panel"><div class="sec-label">Execução mês a mês — fev a set/2026</div><div class="meses"><div class="m" title="Fev: R$ 168.023,64"><b>168K</b><i style="height:73%"></i><span>Fev</span></div><div class="m" title="Mar: R$ 11.724,67"><b>12K</b><i style="height:5%"></i><span>Mar</span></div><div class="m" title="Abr: R$ 229.552,70"><b>230K</b><i style="height:100%"></i><span>Abr</span></div><div class="m" title="Mai: R$ 96.079,32"><b>96K</b><i style="height:42%"></i><span>Mai</span></div><div class="m" title="Jun: R$ 121.709,16"><b>122K</b><i style="height:53%"></i><span>Jun</span></div><div class="m" title="Jul: R$ 162.415,51"><b>162K</b><i style="height:71%"></i><span>Jul</span></div><div class="m" title="Ago: R$ 134.507,61"><b>135K</b><i style="height:59%"></i><span>Ago</span></div><div class="m" title="Set: R$ 159.621,82"><b>160K</b><i style="height:70%"></i><span>Set</span></div></div>
+      <div class="nota-exec">Total executado: <b>R$ 1.083.634,43</b> · 43,8% do aprovado, em 8 meses de execução (fev a set/2026).</div></div>
+    <div class="panel"><div class="sec-label">Executado por natureza — fev a set/2026</div><div id="exec-nat"></div></div>
+  </div>
   <div class="two-col">
     <div class="panel"><div class="sec-label">Rubricas principais — Atividade-fim</div><div id="rubricas"></div></div>
     <div class="panel"><div class="sec-label">Composição do orçamento total</div>
@@ -182,11 +192,11 @@
   <div class="panel panel-full"><div class="sec-label">Programas consolidados — Orçamento total 2026</div><div class="atividade-grid" id="atv-grid"></div></div>
   <div class="panel panel-full"><div class="sec-label">Atividade-meio — Detalhamento de rubricas</div><div id="meio-rubricas"></div></div>
 
-  <div class="fonte"><span>Fonte: Orçamento analítico aprovado LIE · MEC_Execucao_Orcamentaria_2026.xlsx · Planilha Orçamentária CSC</span><span class="status-pill">Execução iniciada — realizados a lançar</span></div>
+  <div class="fonte"><span>Fonte: orçamento analítico aprovado LIE e prestação de contas da conta 10 – LIE (BB), despesas de fev a set/2026</span><span class="status-pill">Executado até set/2026</span></div>
 
   <div class="footer">
     <span class="footer-i">Lei de Incentivo ao Esporte · <strong>Ciclo 2</strong></span>
-    <span class="footer-i">Vigência <strong>Abr 2026 – Mar 2027</strong></span>
+    <span class="footer-i">Vigência <strong>Fev 2026 – Mar 2027</strong></span>
     <span class="footer-i">Lei nº <strong>11.438/2006</strong></span>
     <span class="footer-i">Proponente: <strong>Congregação de Santa Cruz</strong></span>
   </div>
@@ -228,6 +238,15 @@
     rubDiv.appendChild(el);
   });
 
+
+  // --- EXECUTADO POR NATUREZA (prestação de contas, conta 10 - LIE) ---
+  const execNat = [["Folha de Pagamento", 649620.71], ["Assessorias e Consultorias Diversas", 174443.5], ["Reembolso / Repasse", 127339.74], ["Alimentação e Lanches", 58559.5], ["Fretes e Transportes", 29149.63], ["Serviços de Saúde", 12372.0], ["Imobilizado Máquinas e Equipamentos", 10168.74], ["Combustíveis e Transporte", 7914.57], ["Material Esportivo", 5722], ["Combustíveis e Lubrificantes", 2241.94], ["Uniformes e EPIs", 2000], ["Ressarcimento entre contas", 1622.4], ["Impressão e Produção Gráfica", 1520], ["Tarifa Bancária", 584.5], ["Vale Transporte", 375.2]];
+  const execDiv = document.getElementById('exec-nat');
+  execNat.forEach(function(r,i){
+    const el=document.createElement('div'); el.className='prog-row rubrica-row';
+    el.innerHTML='<div class="rubrica-label">'+r[0]+'</div><div class="rubrica-bar-bg"><div class="rubrica-bar" style="width:'+Math.max(r[1]/execNat[0][1]*100,1)+'%;background:'+(i<3?AZUL:'#8A9BB8')+'"></div></div><div class="rubrica-val">'+fmt(r[1])+'</div>';
+    execDiv.appendChild(el);
+  });
   // --- DONUT ---
   const pieGroups = [
     { label: 'RH (folha + encargos)', val: 1172880+296007, color: AZUL },
