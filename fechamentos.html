@@ -403,6 +403,18 @@ footer a:hover{text-decoration:underline;}
   .card-title{font-size:1.98rem;}
 }
 .main{padding-top:24px!important}
+
+.mes-grade{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:4px}
+@media(max-width:900px){.mes-grade{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.mes-grade{grid-template-columns:repeat(2,1fr)}}
+.mes-cartao{display:flex;flex-direction:column;align-items:flex-start;gap:4px;background:#fff;border:2px solid #354d73;border-radius:14px;padding:16px 18px 14px;text-decoration:none;transition:background .15s,transform .15s}
+.mes-cartao:hover{background:#fdf6d3;transform:translateY(-2px)}
+.mes-num{font-family:"Pressio","Arial Narrow",sans-serif;font-weight:900;font-size:64px;line-height:.9;color:#354d73}
+.mes-txt{font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5b6780}
+.intro-fech{background:#fff;border-left:6px solid #f3ce02;border-radius:12px;padding:20px 24px;margin-bottom:8px;max-width:860px}
+.intro-fech h2{font-family:"Pressio","Arial Narrow",sans-serif;font-weight:900;font-size:30px;line-height:1;color:#354d73;text-transform:uppercase;margin-bottom:10px}
+.intro-fech p{font-size:15px;line-height:1.6;color:#3a4a63}
+.intro-fech p+p{margin-top:8px}
 /* ===== TEMA MEC (padrão dos fechamentos) — sobrepõe o visual escuro antigo ===== */
 :root{--fundo:#f1eee8;--papel:#fff;--linha:#e3e0d8;--texto:#22344f;--texto-2:#5b6780;--branco:#22344f;--cinza-card:#fff;--roxo:#8010ff}
 body{background:var(--fundo)!important;color:var(--texto)!important;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif!important}
@@ -480,18 +492,7 @@ header.topo{max-width:none!important;margin:0!important;padding:22px 28px!import
 </div>
 
 <!-- ── FOOTER ── -->
-<footer>
-  <a href="https://github.com/atuono-tech/mec_dashboards_2025" target="_blank">
-    github.com/atuono-tech/mec_dashboards_2025
-  </a>
-  <div class="dots">
-    <div class="dot" style="background:#42ce02"></div>
-    <div class="dot" style="background:#f44c06"></div>
-    <div class="dot" style="background:#c084fc"></div>
-    <div class="dot" style="background:#f3ce02"></div>
-    <div class="dot" style="background:#354d73;border:1px solid rgba(255,255,255,.2)"></div>
-  </div>
-</footer>
+<footer style="justify-content:center">O Meninas em Campo é um programa social da Congregação de Santa Cruz.</footer>
 
 <script>
 /* ─────────────────────────────────────────────
@@ -862,10 +863,24 @@ document.title="Fechamentos mensais · Meninas em Campo";
 (function(){var b=document.querySelector('.topo-dir .big'); if(b) b.textContent='Fechamentos';
  var l=document.querySelector('.topo-dir .lbl'); if(l) l.innerHTML='<a href="index.html" style="color:inherit">← Publicações</a> · todos os meses publicados';
  var s=document.querySelector('.search-wrap'); if(s) s.style.display='none';})();
+
+/* Cartões simples: número do mês grande + nome do mês */
+function makeMesesSection(yearKey){
+  var files=monthFiles.filter(function(f){return f.y===yearKey;});
+  if(!files.length) return "";
+  var vistos={}, itens=[];
+  files.forEach(function(f){ if(!vistos[f.m]){vistos[f.m]=1; itens.push(f);} });
+  return '<div class="mes-grade">'+itens.map(function(f){
+    return '<a class="mes-cartao" href="'+urlDe(f.path)+'"><span class="mes-num">'+pad(f.m)+'</span><span class="mes-txt">'+MESES_NOME[f.m-1]+'</span></a>';
+  }).join("")+'</div>';
+}
+var INTRO='<div class="intro-fech"><h2>O que são os fechamentos mensais</h2>'+
+ '<p>Todo mês, cada professora e professor registra o trabalho feito com a sua turma: presença das atletas, treinos realizados, conteúdos e fundamentos trabalhados, percepção de esforço, temas transversais e atuação da psicologia. Esses registros, somados à lista de presença oficial, formam o fechamento do mês.</p>'+
+ '<p>Cada fechamento reúne a frequência e a evasão por turma, os treinos e conteúdos do período e os destaques do mês. É o retrato do dia a dia do programa, construído por quem está em campo com as meninas. Os dados são apresentados de forma agregada, sem identificar nenhuma atleta.</p></div>';
 function render(){
   var anos=[...new Set(monthFiles.map(function(f){return f.y;}))].sort().reverse();
   var html=anos.map(function(yr){return '<div class="year-block"><div class="year-header"><span class="year-pill y'+yr+'">'+yr+'</span><div class="year-line"></div></div>'+makeMesesSection(yr)+'</div>';}).join('');
-  document.getElementById('main').innerHTML=html||'<div class="loading-block">Nenhum fechamento publicado.</div>';
+  document.getElementById('main').innerHTML=INTRO+(html)||'<div class="loading-block">Nenhum fechamento publicado.</div>';
 }
 if(monthFiles.length) render();
 </script>
