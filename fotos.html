@@ -252,7 +252,7 @@ function carregar(){
     .catch(()=>MESES_RESERVA);
 }
 
-carregar().then(MESES => MESES.forEach(m => {
+carregar().then(MESES => MESES.slice().reverse().forEach(m => {
   const bloco = document.createElement('div');
   const totalTxt = m.fotos.length > 0 ? m.fotos.length + ' foto' + (m.fotos.length !== 1 ? 's' : '') : '';
 
